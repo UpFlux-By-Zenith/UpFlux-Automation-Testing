@@ -252,6 +252,61 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "WeakPasswordEnforcement",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"// Test weak password response\r",
+													"pm.test(\"Weak password response\", function () {\r",
+													"    pm.expect(pm.response.code).to.equal(400);\r",
+													"    pm.expect(pm.response.json().message).to.equal(\"Password is too weak\");\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"oldPassword\": \"{{AdminPassword}}\",\r\n  \"newPassword\": \"12345\",\r\n  \"confirmPassword\": \"12345\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/admin/change-password",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"admin",
+												"change-password"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"description": "create tests for the password reset API to ensure password management meets security standards."
