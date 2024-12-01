@@ -3,7 +3,7 @@
 		"_postman_id": "658ef189-5911-4013-89f0-1bab74fe0961",
 		"name": "UpFluxCollection",
 		"description": "This Collection holds all the Backend automation testing script for UpFlux Solution",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "38739685"
 	},
 	"item": [
@@ -51,7 +51,17 @@
 												}
 											}
 										},
-										"url": "{{url}}/Auth/admin/login"
+										"url": {
+											"raw": "{{url}}/Auth/admin/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"admin",
+												"login"
+											]
+										}
 									},
 									"response": []
 								},
@@ -88,12 +98,218 @@
 												}
 											}
 										},
-										"url": "{{url}}/Auth/admin/login"
+										"url": {
+											"raw": "{{url}}/Auth/admin/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"admin",
+												"login"
+											]
+										}
 									},
 									"response": []
 								}
 							],
 							"description": "Verify the login process for admin users, including valid and invalid credentials."
+						},
+						{
+							"name": "AdminPasswordChange",
+							"item": [
+								{
+									"name": "ValidOldPassword",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													"//Generate New Password\r",
+													"const randomNumber = Math.floor(Math.random() * 10000); \r",
+													"\r",
+													"const originalPassword = \"hashedpassword123\";\r",
+													"\r",
+													"const newPassword = `${originalPassword}${randomNumber}`;\r",
+													"\r",
+													"pm.environment.set(\"NewAdminPassword\", newPassword);\r",
+													"pm.environment.set(\"ConfirmNewPassword\", newPassword); \r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response message is 'Password changed successfully.'\", function () {\r",
+													"    pm.expect(pm.response.json().message).to.equal(\"Password changed successfully.\");\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"oldPassword\": \"{{AdminPassword}}\",\r\n  \"newPassword\": \"{{NewAdminPassword}}\",\r\n  \"confirmPassword\": \"{{NewAdminPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/admin/change-password",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"admin",
+												"change-password"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InvalidOldPassword",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401 for invalid password\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response error message is 'Old password is incorrect.'\", function () {\r",
+													"    pm.expect(pm.response.json().error).to.equal(\"Old password is incorrect.\");\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"oldPassword\": \"xxxxxxxxxxxxxx\",\r\n  \"newPassword\": \"{{NewAdminPassword}}\",\r\n  \"confirmPassword\": \"{{NewAdminPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/admin/change-password",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"admin",
+												"change-password"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "WeakPasswordEnforcement",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"// Test weak password response\r",
+													"pm.test(\"Weak password response\", function () {\r",
+													"    pm.expect(pm.response.code).to.equal(400);\r",
+													"    pm.expect(pm.response.json().message).to.equal(\"Password is too weak\");\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"oldPassword\": \"{{AdminPassword}}\",\r\n  \"newPassword\": \"12345\",\r\n  \"confirmPassword\": \"12345\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/admin/change-password",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"admin",
+												"change-password"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "create tests for the password reset API to ensure password management meets security standards."
 						},
 						{
 							"name": "EngineerLogin",
@@ -123,9 +339,13 @@
 									"request": {
 										"auth": {
 											"type": "bearer",
-											"bearer": {
-												"token": "{{token}}"
-											}
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
 										},
 										"method": "POST",
 										"header": [],
@@ -138,7 +358,17 @@
 												}
 											}
 										},
-										"url": "{{url}}/Auth/admin/create-engineer-token"
+										"url": {
+											"raw": "{{url}}/Auth/admin/create-engineer-token",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"admin",
+												"create-engineer-token"
+											]
+										}
 									},
 									"response": []
 								},
@@ -165,9 +395,13 @@
 									"request": {
 										"auth": {
 											"type": "bearer",
-											"bearer": {
-												"token": "{{token}}"
-											}
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
 										},
 										"method": "POST",
 										"header": [],
@@ -180,7 +414,17 @@
 												}
 											}
 										},
-										"url": "{{url}}/Auth/engineer/login"
+										"url": {
+											"raw": "{{url}}/Auth/engineer/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"engineer",
+												"login"
+											]
+										}
 									},
 									"response": []
 								},
@@ -208,9 +452,13 @@
 									"request": {
 										"auth": {
 											"type": "bearer",
-											"bearer": {
-												"token": "{{token}}"
-											}
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
 										},
 										"method": "POST",
 										"header": [],
@@ -223,7 +471,17 @@
 												}
 											}
 										},
-										"url": "{{url}}/Auth/engineer/login"
+										"url": {
+											"raw": "{{url}}/Auth/engineer/login",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"engineer",
+												"login"
+											]
+										}
 									},
 									"response": []
 								}
