@@ -1,0 +1,269 @@
+{
+	"info": {
+		"_postman_id": "658ef189-5911-4013-89f0-1bab74fe0961",
+		"name": "UpFluxCollection",
+		"description": "This Collection holds all the Backend automation testing script for UpFlux Solution",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "38739685"
+	},
+	"item": [
+		{
+			"name": "Autorization and Authentication",
+			"item": [
+				{
+					"name": "LoginTests",
+					"item": [
+						{
+							"name": "AdminLogin",
+							"item": [
+								{
+									"name": "ValidLogin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Extract token from the response body\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.environment.set(\"token\", jsonData.token);\r",
+													"    pm.expect(pm.environment.get(\"token\")).to.exist;\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/admin/login"
+									},
+									"response": []
+								},
+								{
+									"name": "InvalidLogin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response error message is 'Invalid admin credentials'\", function () {\r",
+													"    pm.expect(pm.response.json().error).to.equal(\"Invalid admin credentials\");\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"Admin@UpFlux.com\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/admin/login"
+									},
+									"response": []
+								}
+							],
+							"description": "Verify the login process for admin users, including valid and invalid credentials."
+						},
+						{
+							"name": "EngineerLogin",
+							"item": [
+								{
+									"name": "EngineerTokenCreation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Engineer token is extracted from the response body and set as environment variable\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.environment.set(\"engineerToken\", jsonData.engineerToken);\r",
+													"    pm.expect(jsonData.engineerToken).to.exist;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{token}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"engineerEmail\": \"{{engineerEmail}}\",\r\n  \"engineerName\": \"engineer\",\r\n  \"machineIds\": [\r\n    \"M1, M2\"\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/admin/create-engineer-token"
+									},
+									"response": []
+								},
+								{
+									"name": "ValidEngineerLogin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Response body has token\", function () {\r",
+													"    pm.response.to.have.jsonBody('token');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{token}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"{{engineerEmail}}\",\r\n  \"engineerToken\": \"{{engineerToken}}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/engineer/login"
+									},
+									"response": []
+								},
+								{
+									"name": "InvalidEngineerLogin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response error message is 'Invalid token for the provided email.'\", function () {\r",
+													"    pm.expect(pm.response.json().error).to.equal(\"Invalid token for the provided email.\");\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{token}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"{{engineerEmail}}\",\r\n  \"engineerToken\": \"{{token}}\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/engineer/login"
+									},
+									"response": []
+								}
+							],
+							"description": "Test the engineer login functionality, ensuring valid and invalid credential"
+						}
+					],
+					"description": "Test the login functionality for both admin and engineer roles to ensure secure access and proper handling of user credentials."
+				}
+			],
+			"description": "Validate the security and functionality of authentication and authorization endpoints, ensuring proper access control and data handling."
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "url",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
