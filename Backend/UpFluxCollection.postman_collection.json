@@ -92,7 +92,8 @@
 									},
 									"response": []
 								}
-							]
+							],
+							"description": "Verify the login process for admin users, including valid and invalid credentials."
 						},
 						{
 							"name": "EngineerLogin",
@@ -130,7 +131,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"engineerEmail\": \"engineer@upflux.com\",\r\n  \"engineerName\": \"engineer\",\r\n  \"machineIds\": [\r\n    \"M1, M2\"\r\n  ]\r\n}",
+											"raw": "{\r\n  \"engineerEmail\": \"{{engineerEmail}}\",\r\n  \"engineerName\": \"engineer\",\r\n  \"machineIds\": [\r\n    \"M1, M2\"\r\n  ]\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -172,7 +173,50 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"email\": \"engineer@upflux.com\",\r\n  \"engineerToken\": \"{{engineerToken}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"email\": \"{{engineerEmail}}\",\r\n  \"engineerToken\": \"{{engineerToken}}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/engineer/login"
+									},
+									"response": []
+								},
+								{
+									"name": "InvalidEngineerLogin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response error message is 'Invalid token for the provided email.'\", function () {\r",
+													"    pm.expect(pm.response.json().error).to.equal(\"Invalid token for the provided email.\");\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{token}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"{{engineerEmail}}\",\r\n  \"engineerToken\": \"{{token}}\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -183,11 +227,14 @@
 									},
 									"response": []
 								}
-							]
+							],
+							"description": "Test the engineer login functionality, ensuring valid and invalid credential"
 						}
-					]
+					],
+					"description": "Test the login functionality for both admin and engineer roles to ensure secure access and proper handling of user credentials."
 				}
-			]
+			],
+			"description": "Validate the security and functionality of authentication and authorization endpoints, ensuring proper access control and data handling."
 		}
 	],
 	"event": [
