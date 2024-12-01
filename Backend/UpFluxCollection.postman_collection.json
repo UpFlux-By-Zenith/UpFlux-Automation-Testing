@@ -2,6 +2,7 @@
 	"info": {
 		"_postman_id": "658ef189-5911-4013-89f0-1bab74fe0961",
 		"name": "UpFluxCollection",
+		"description": "This Collection holds all the Backend automation testing script for UpFlux Solution",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "38739685"
 	},
@@ -80,7 +81,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"email\": \"Admin@Upflux.com\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+											"raw": "{\r\n  \"email\": \"Admin@UpFlux.com\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -88,6 +89,97 @@
 											}
 										},
 										"url": "{{url}}/Auth/admin/login"
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "EngineerLogin",
+							"item": [
+								{
+									"name": "EngineerTokenCreation",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Engineer token is extracted from the response body and set as environment variable\", function () {\r",
+													"    var jsonData = pm.response.json();\r",
+													"    pm.environment.set(\"engineerToken\", jsonData.engineerToken);\r",
+													"    pm.expect(jsonData.engineerToken).to.exist;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{token}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"engineerEmail\": \"engineer@upflux.com\",\r\n  \"engineerName\": \"engineer\",\r\n  \"machineIds\": [\r\n    \"M1, M2\"\r\n  ]\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/admin/create-engineer-token"
+									},
+									"response": []
+								},
+								{
+									"name": "ValidEngineerLogin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"pm.test(\"Response body has token\", function () {\r",
+													"    pm.response.to.have.jsonBody('token');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": {
+												"token": "{{token}}"
+											}
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"email\": \"engineer@upflux.com\",\r\n  \"engineerToken\": \"{{engineerToken}}\"\r\n}\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "{{url}}/Auth/engineer/login"
 									},
 									"response": []
 								}
