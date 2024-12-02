@@ -490,6 +490,76 @@
 						}
 					],
 					"description": "Test the login functionality for both admin and engineer roles to ensure secure access and proper handling of user credentials."
+				},
+				{
+					"name": "TokenManagement",
+					"item": [
+						{
+							"name": "TokenParsing",
+							"item": [
+								{
+									"name": "ValidTokenParsing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"// Asserting the response to be in JSON format\r",
+													"pm.test(\"Response body is in JSON format\", function () {\r",
+													"    pm.response.to.be.json;\r",
+													"});\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"{{engineerToken}}\"",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/parse-token",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"parse-token"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						}
+					],
+					"description": "Contains tests for validating the creation, parsing, and security of authentication tokens. The tests ensure that tokens are generated securely, validated correctly, and expire as expected."
 				}
 			],
 			"description": "Validate the security and functionality of authentication and authorization endpoints, ensuring proper access control and data handling."
