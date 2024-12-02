@@ -808,9 +808,123 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "MachinewithoutToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid token header exists\", function () {\r",
+													"    pm.expect(pm.response.headers.get('WWW-Authenticate')).to.include('Bearer');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/engineer/access-machines",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"engineer",
+												"access-machines"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"description": "Tests access control to machine data and shared endpoints, verifying responses for valid, expired, or missing tokens and role-based restrictions."
+						},
+						{
+							"name": "Shared Endpoints",
+							"item": [
+								{
+									"name": "AccessAdminToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains email and role\", function () {\r",
+													"    pm.expect(pm.response.json()).to.have.property('email');\r",
+													"    pm.expect(pm.response.json()).to.have.property('role');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Auth/shared-endpoint",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"shared-endpoint"
+											]
+										}
+									},
+									"response": []
+								}
+							]
 						}
 					],
 					"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
