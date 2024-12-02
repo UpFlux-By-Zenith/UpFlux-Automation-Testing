@@ -610,6 +610,71 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "ExpiredTokenParsing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbmdpbmVlckB1cGZsdXguY29tIiwiTWFjaGluZUlkcyI6Ik0xLCBNMiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkVuZ2luZWVyIiwiZXhwIjoxNzI3OTc4MTc2LCJpc3MiOiJVcEZsdXgiLCJhdWQiOiJVcEZsdXhBUEkifQ.nVjCQPzMwvM6AcDaH_Fx4WPhRgb4Y6-MEkF9-lhbR5E\"\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/parse-token",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"parse-token"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						}
