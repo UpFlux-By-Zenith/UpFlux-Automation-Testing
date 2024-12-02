@@ -490,6 +490,539 @@
 						}
 					],
 					"description": "Test the login functionality for both admin and engineer roles to ensure secure access and proper handling of user credentials."
+				},
+				{
+					"name": "TokenManagementTests",
+					"item": [
+						{
+							"name": "TokenParsing",
+							"item": [
+								{
+									"name": "ValidTokenParsing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"// Asserting the response to be in JSON format\r",
+													"pm.test(\"Response body is in JSON format\", function () {\r",
+													"    pm.response.to.be.json;\r",
+													"});\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"{{engineerToken}}\"\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/parse-token",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"parse-token"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InvalidTokenParsing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}+x",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"{{engineerToken}}\"",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/parse-token",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"parse-token"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "ExpiredTokenParsing",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"exec": [
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbmdpbmVlckB1cGZsdXguY29tIiwiTWFjaGluZUlkcyI6Ik0xLCBNMiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkVuZ2luZWVyIiwiZXhwIjoxNzI3OTc4MTc2LCJpc3MiOiJVcEZsdXgiLCJhdWQiOiJVcEZsdXhBUEkifQ.nVjCQPzMwvM6AcDaH_Fx4WPhRgb4Y6-MEkF9-lhbR5E\"",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/parse-token",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"parse-token"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "Validates the ability to parse valid, tampered, and expired tokens, ensuring proper error handling for unauthorized or expired token scenarios."
+						}
+					],
+					"description": "Contains tests for validating the creation, parsing, and security of authentication tokens. The tests ensure that tokens are generated securely, validated correctly, and expire as expected."
+				},
+				{
+					"name": "AccessControlTests",
+					"item": [
+						{
+							"name": "MachineAccess",
+							"item": [
+								{
+									"name": "MachineValidToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Engineer email exists\", function () {\r",
+													"    pm.expect(pm.response.json().engineerEmail).to.exist;\r",
+													"        pm.expect(pm.response.json().accessibleMachines).to.exist;\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{engineerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/engineer/access-machines",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"engineer",
+												"access-machines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "MachineInvalidToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid token header exists\", function () {\r",
+													"    pm.expect(pm.response.headers.get('WWW-Authenticate')).to.include('invalid_token');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{engineerToken}}+x",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/engineer/access-machines",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"engineer",
+												"access-machines"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "MachinewithoutToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"\r",
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Invalid token header exists\", function () {\r",
+													"    pm.expect(pm.response.headers.get('WWW-Authenticate')).to.include('Bearer');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "\r\n",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Auth/engineer/access-machines",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"engineer",
+												"access-machines"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "Tests access control to machine data and shared endpoints, verifying responses for valid, expired, or missing tokens and role-based restrictions."
+						},
+						{
+							"name": "Shared Endpoints",
+							"item": [
+								{
+									"name": "AccessAdminToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains email and role\", function () {\r",
+													"    pm.expect(pm.response.json()).to.have.property('email');\r",
+													"    pm.expect(pm.response.json()).to.have.property('role');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Auth/shared-endpoint",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"shared-endpoint"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AccessEngineerToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains email and role\", function () {\r",
+													"    pm.expect(pm.response.json()).to.have.property('email');\r",
+													"    pm.expect(pm.response.json()).to.have.property('role');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{engineerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Auth/shared-endpoint",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"shared-endpoint"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UnauthorizedAcess",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Verify Content-Length value is 0\", function () {\r",
+													"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.equal(\"0\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Auth/shared-endpoint",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"shared-endpoint"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "This Folder containds access control test for the shared endpoint API, ensuring proper handling of requests with valid, invalid, or missing tokens.EndFragment"
+						}
+					],
+					"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
 				}
 			],
 			"description": "Validate the security and functionality of authentication and authorization endpoints, ensuring proper access control and data handling."
