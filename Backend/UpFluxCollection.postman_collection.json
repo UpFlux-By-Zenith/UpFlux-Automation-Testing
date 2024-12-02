@@ -492,7 +492,7 @@
 					"description": "Test the login functionality for both admin and engineer roles to ensure secure access and proper handling of user credentials."
 				},
 				{
-					"name": "TokenManagement",
+					"name": "TokenManagementTests",
 					"item": [
 						{
 							"name": "TokenParsing",
@@ -683,7 +683,7 @@
 					"description": "Contains tests for validating the creation, parsing, and security of authentication tokens. The tests ensure that tokens are generated securely, validated correctly, and expire as expected."
 				},
 				{
-					"name": "AccessControl",
+					"name": "AccessControlTests",
 					"item": [
 						{
 							"name": "MachineAccess",
@@ -983,7 +983,6 @@
 													"    pm.response.to.have.status(401);\r",
 													"});\r",
 													"\r",
-													"\r",
 													"pm.test(\"Verify Content-Length value is 0\", function () {\r",
 													"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.equal(\"0\");\r",
 													"});"
@@ -1019,7 +1018,8 @@
 									},
 									"response": []
 								}
-							]
+							],
+							"description": "This Folder containds access control test for the shared endpoint API, ensuring proper handling of requests with valid, invalid, or missing tokens.EndFragment"
 						}
 					],
 					"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
