@@ -923,6 +923,101 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "AccessEngineerToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains email and role\", function () {\r",
+													"    pm.expect(pm.response.json()).to.have.property('email');\r",
+													"    pm.expect(pm.response.json()).to.have.property('role');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{engineerToken}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Auth/shared-endpoint",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"shared-endpoint"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "UnauthorizedAcess",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													"\r",
+													"pm.test(\"Verify Content-Length value is 0\", function () {\r",
+													"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.equal(\"0\");\r",
+													"});"
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Auth/shared-endpoint",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Auth",
+												"shared-endpoint"
+											]
+										}
+									},
+									"response": []
 								}
 							]
 						}
