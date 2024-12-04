@@ -22,10 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Assertions\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\UpFluxAutomation\UpFluxAutomation.csproj" />
   </ItemGroup>
 
