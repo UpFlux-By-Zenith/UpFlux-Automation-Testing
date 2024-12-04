@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UpFluxAutomationTest", "UpFluxAutomationTest.csproj", "{AD0B3634-1810-4C27-A80A-9D26D469F3F1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpFluxAutomationTest", "UpFluxAutomationTest.csproj", "{AD0B3634-1810-4C27-A80A-9D26D469F3F1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UpFluxAutomation", "..\UpFluxAutomation\UpFluxAutomation.csproj", "{6446A914-7292-4CD4-BDF9-199C1D82982B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{AD0B3634-1810-4C27-A80A-9D26D469F3F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AD0B3634-1810-4C27-A80A-9D26D469F3F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AD0B3634-1810-4C27-A80A-9D26D469F3F1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6446A914-7292-4CD4-BDF9-199C1D82982B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6446A914-7292-4CD4-BDF9-199C1D82982B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6446A914-7292-4CD4-BDF9-199C1D82982B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6446A914-7292-4CD4-BDF9-199C1D82982B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

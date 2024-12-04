@@ -10,6 +10,7 @@
         "dependencies": {
           "Microsoft.NET.Test.Sdk": "17.8.0",
           "Microsoft.Playwright": "1.49.0",
+          "UpFluxAutomation": "1.0.0",
           "coverlet.collector": "6.0.0",
           "xunit": "2.9.2",
           "xunit.runner.visualstudio": "2.5.3"
@@ -383,7 +384,15 @@
           }
         }
       },
-      "xunit.runner.visualstudio/2.5.3": {}
+      "xunit.runner.visualstudio/2.5.3": {},
+      "UpFluxAutomation/1.0.0": {
+        "runtime": {
+          "UpFluxAutomation.dll": {
+            "assemblyVersion": "1.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      }
     }
   },
   "libraries": {
@@ -545,6 +554,11 @@
       "sha512": "sha512-HFFL6O+QLEOfs555SqHii48ovVa4CqGYanY+B32BjLpPptdE+wEJmCFNXlLHdEOD5LYeayb9EroaUpydGpcybg==",
       "path": "xunit.runner.visualstudio/2.5.3",
       "hashPath": "xunit.runner.visualstudio.2.5.3.nupkg.sha512"
+    },
+    "UpFluxAutomation/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }
