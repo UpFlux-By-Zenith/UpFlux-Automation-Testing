@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("UpFluxAutomation")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3663b621fefa56b2c43db5bf3d02a2573dea17bc")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e1bdedf03318ed99b208574429ec223849905ac5")]
 [assembly: System.Reflection.AssemblyProductAttribute("UpFluxAutomation")]
 [assembly: System.Reflection.AssemblyTitleAttribute("UpFluxAutomation")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

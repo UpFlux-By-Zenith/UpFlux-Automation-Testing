@@ -1,0 +1,12 @@
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\bin\Debug\net8.0\UpFluxAutomation.deps.json
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\bin\Debug\net8.0\UpFluxAutomation.dll
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\bin\Debug\net8.0\UpFluxAutomation.pdb
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\UpFluxAutomation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\UpFluxAutomation.AssemblyInfoInputs.cache
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\UpFluxAutomation.AssemblyInfo.cs
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\UpFluxAutomation.csproj.CoreCompileInputs.cache
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\UpFluxAutomation.sourcelink.json
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\UpFluxAutomation.dll
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\refint\UpFluxAutomation.dll
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\UpFluxAutomation.pdb
+C:\Users\User\source\repos\UpFLuxPlaywrightTest\UpFlux-Automation-Testing\Frontend\UpFluxAutomation\obj\Debug\net8.0\ref\UpFluxAutomation.dll

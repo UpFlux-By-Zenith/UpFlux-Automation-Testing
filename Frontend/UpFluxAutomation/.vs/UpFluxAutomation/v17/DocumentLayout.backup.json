@@ -1,0 +1,78 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\source\\repos\\UpFLuxPlaywrightTest\\UpFlux-Automation-Testing\\Frontend\\UpFluxAutomation\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B18F869D-61F9-4698-A20F-D826C4AE46CE}|..\\UpFluxAutomationTest\\UpFluxAutomationTest.csproj|c:\\users\\user\\source\\repos\\upfluxplaywrighttest\\upflux-automation-testing\\frontend\\upfluxautomationtest\\testbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B18F869D-61F9-4698-A20F-D826C4AE46CE}|..\\UpFluxAutomationTest\\UpFluxAutomationTest.csproj|c:\\users\\user\\source\\repos\\upfluxplaywrighttest\\upflux-automation-testing\\frontend\\upfluxautomationtest\\logintest\\login.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B18F869D-61F9-4698-A20F-D826C4AE46CE}|..\\UpFluxAutomationTest\\UpFluxAutomationTest.csproj|c:\\users\\user\\source\\repos\\upfluxplaywrighttest\\upflux-automation-testing\\frontend\\upfluxautomationtest\\upfluxautomationtest.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "TestBase.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\UpFLuxPlaywrightTest\\UpFlux-Automation-Testing\\Frontend\\UpFluxAutomationTest\\TestBase.cs",
+              "RelativeDocumentMoniker": "..\\UpFluxAutomationTest\\TestBase.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\UpFLuxPlaywrightTest\\UpFlux-Automation-Testing\\Frontend\\UpFluxAutomationTest\\TestBase.cs",
+              "RelativeToolTip": "..\\UpFluxAutomationTest\\TestBase.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-04T13:05:06.286Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UpFluxAutomationTest.csproj",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\UpFLuxPlaywrightTest\\UpFlux-Automation-Testing\\Frontend\\UpFluxAutomationTest\\UpFluxAutomationTest.csproj",
+              "RelativeDocumentMoniker": "..\\UpFluxAutomationTest\\UpFluxAutomationTest.csproj",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\UpFLuxPlaywrightTest\\UpFlux-Automation-Testing\\Frontend\\UpFluxAutomationTest\\UpFluxAutomationTest.csproj",
+              "RelativeToolTip": "..\\UpFluxAutomationTest\\UpFluxAutomationTest.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-12-04T13:01:21.96Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Login.cs",
+              "DocumentMoniker": "C:\\Users\\User\\source\\repos\\UpFLuxPlaywrightTest\\UpFlux-Automation-Testing\\Frontend\\UpFluxAutomationTest\\LoginTest\\Login.cs",
+              "RelativeDocumentMoniker": "..\\UpFluxAutomationTest\\LoginTest\\Login.cs",
+              "ToolTip": "C:\\Users\\User\\source\\repos\\UpFLuxPlaywrightTest\\UpFlux-Automation-Testing\\Frontend\\UpFluxAutomationTest\\LoginTest\\Login.cs",
+              "RelativeToolTip": "..\\UpFluxAutomationTest\\LoginTest\\Login.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-12-04T13:01:53.596Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
