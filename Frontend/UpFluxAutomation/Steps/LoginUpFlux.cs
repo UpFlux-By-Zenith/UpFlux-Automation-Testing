@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace UpFluxAutomation.Steps
 {
-    internal class Empty
+    internal class LoginUpFlux
     {
     }
 }
