@@ -18,4 +18,3 @@ namespace UpFluxAutomationTest.LoginTest
     }
 }
 
-//Test Playright setup is working correctly 
