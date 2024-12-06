@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UpFluxAutomation.Steps
+namespace UpFluxAutomation.Steps.LogIn
 {
     internal class LoginUpFlux
     {

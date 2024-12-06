@@ -1,8 +1,7 @@
 ﻿using Microsoft.Playwright;
 using NUnit.Framework;
-using UpFluxAutomation.Utilities;
 
-namespace UpFluxAutomationTest
+namespace UpFluxAutomationTest.TestBase
 {
     public class TestBase
     {
@@ -17,10 +16,7 @@ namespace UpFluxAutomationTest
             {
                 Headless = false
             });
-            var context = await Browser.NewContextAsync(new BrowserNewContextOptions
-            {
-                BaseURL = EnvironmentConfig.BaseUrl
-            });
+            var context = await Browser.NewContextAsync();
             Page = await context.NewPageAsync();
         }
 
