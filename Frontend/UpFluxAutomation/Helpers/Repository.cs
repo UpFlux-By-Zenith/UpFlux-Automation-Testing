@@ -12,10 +12,8 @@ namespace UpFluxAutomation.Helpers
         {
             return new AdminModel
             {
-                Email = ConfigurationManager.AppSettings["AdminEmail"]
-                        ?? throw new ConfigurationErrorsException("AdminEmail is not configured."),
-                Password = ConfigurationManager.AppSettings["AdminPassword"]
-                        ?? throw new ConfigurationErrorsException("AdminPassword is not configured.")
+                Email = ConfigurationManager.AppSettings["AdminEmail"] ?? throw new ConfigurationErrorsException("AdminEmail is not configured."),
+                Password = ConfigurationManager.AppSettings["AdminPassword"] ?? throw new ConfigurationErrorsException("AdminPassword is not configured.")
             };
         }
 
@@ -31,8 +29,7 @@ namespace UpFluxAutomation.Helpers
 
             return new EngineerModel
             {
-                Email = ConfigurationManager.AppSettings["EngineerEmail"]
-                        ?? throw new ConfigurationErrorsException("EngineerEmail is not configured."),
+                Email = ConfigurationManager.AppSettings["EngineerEmail"] ?? throw new ConfigurationErrorsException("EngineerEmail is not configured."),
                 EngineerToken = engineerToken ?? throw new Exception("EngineerToken is missing in the JSON file.")
             };
         }
