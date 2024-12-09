@@ -11,7 +11,7 @@ namespace UpFluxAutomationTest.TestBase
     {
         protected IPage Page;
         protected IBrowser Browser;
-        protected MemoryRepository Repository;
+        protected IRepository Repository;
         protected string EngineerEmail;
         protected string EngineerToken;
 
@@ -45,6 +45,10 @@ namespace UpFluxAutomationTest.TestBase
             });
 
             Page = await context.NewPageAsync();
+
+            // Initialize Repository 
+            Repository = new MemoryRepository();
+            Repository.Add(Page);
         }
 
         [TearDown]

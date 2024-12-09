@@ -1,14 +1,14 @@
 ﻿using Microsoft.Playwright;
 using System;
+using UpFluxAutomation.Abstractions;
 using UpFluxAutomation.Helpers;
 using UpFluxAutomation.Steps;
-using UpFluxAutomation.Steps.Abstractions;
 
 namespace UpFluxAutomation.Flows
 {
     public static class FlowFactory
     {
-        public static IStep CreateFlow(this PredefinedFlow predefinedFlow, MemoryRepository repository)
+        public static IStep CreateFlow(this PredefinedFlow predefinedFlow, IRepository repository)
         {
             IStep flow;
 

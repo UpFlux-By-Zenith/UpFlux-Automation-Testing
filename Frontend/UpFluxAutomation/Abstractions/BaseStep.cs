@@ -1,18 +1,18 @@
-﻿using System.Threading.Tasks;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
+using System.Threading.Tasks;
 using UpFluxAutomation.Helpers;
-using UpFluxAutomation.Steps.Abstractions;
 
-namespace UpFluxAutomation.Steps
+namespace UpFluxAutomation.Abstractions
 {
     public abstract class BaseStep : IStep
     {
-        protected readonly MemoryRepository Repository;
+        protected readonly IRepository Repository;
         private IStep _next;
 
-        protected BaseStep(MemoryRepository repository)
+        protected BaseStep(IRepository repository, IStep next = null)
         {
             Repository = repository;
+            _next = next;
         }
 
         public IStep Chain(IStep next)
@@ -25,14 +25,13 @@ namespace UpFluxAutomation.Steps
         {
             var page = Repository.Get<IPage>();
 
-            await PerformExecute(page);
+            await PerformExecute();
 
             if (_next != null)
             {
-                await _next.Execute(page);
+                await _next.Execute();
             }
         }
-
-        protected abstract Task PerformExecute(IPage page);
+        protected abstract Task PerformExecute();
     }
 }

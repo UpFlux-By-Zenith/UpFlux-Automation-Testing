@@ -2,8 +2,8 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
+using UpFluxAutomation.Abstractions;
 using UpFluxAutomation.Helpers;
-using UpFluxAutomation.Steps.Abstractions;
 
 namespace UpFluxAutomation.Steps
 {
@@ -11,13 +11,16 @@ namespace UpFluxAutomation.Steps
     {
         public FillEngineerDetails(IRepository repository, IStep next = null) : base(repository, next) { }
 
-        protected override async Task PerformExecute(IPage page)
+        protected override async Task PerformExecute()
         {
             Console.WriteLine("Filling Engineer Details...");
 
+            var page = Repository.Get<IPage>();
             var engineerData = Repository.Get<EngineerData>();
 
+
             // Fill in email
+            await page.WaitForTimeoutAsync(1000);
             await page.Locator("input[placeholder='E-mail']").FillAsync(engineerData.Email);
 
             // Create a temporary JSON file for the token

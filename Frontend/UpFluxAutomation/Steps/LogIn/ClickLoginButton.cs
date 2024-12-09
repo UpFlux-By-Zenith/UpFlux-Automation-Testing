@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Playwright;
+using UpFluxAutomation.Abstractions;
 using UpFluxAutomation.Helpers;
-using UpFluxAutomation.Steps.Abstractions;
 
 namespace UpFluxAutomation.Steps
 {
@@ -9,11 +9,12 @@ namespace UpFluxAutomation.Steps
     {
         public ClickLoginButton(IRepository repository, IStep next = null) : base(repository, next) { }
 
-        protected override async Task PerformExecute(IPage page)
+        protected override async Task PerformExecute()
         {
             Console.WriteLine("Clicking the Login Button...");
 
-            // Perform the click on the login button
+            var page = Repository.Get<IPage>();
+
             await page.Locator("button:has-text('LOG IN')").ClickAsync();
 
             Console.WriteLine("Login Button Clicked!");
