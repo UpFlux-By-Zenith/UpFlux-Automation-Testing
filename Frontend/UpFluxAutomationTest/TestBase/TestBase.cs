@@ -1,5 +1,8 @@
-﻿using Microsoft.Playwright;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Playwright;
 using NUnit.Framework;
+using System;
+using System.IO;
 
 namespace UpFluxAutomationTest.TestBase
 {
@@ -7,23 +10,48 @@ namespace UpFluxAutomationTest.TestBase
     {
         protected IPage Page;
         protected IBrowser Browser;
+        protected string EngineerEmail;
+        protected string EngineerToken;
 
         [SetUp]
         public async Task Setup()
         {
+            // Load configuration from appsettings.json
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            string baseUrl = configuration["BaseUrl"] ?? throw new Exception("BaseUrl is not configured.");
+            EngineerEmail = configuration["EngineerEmail"] ?? throw new Exception("EngineerEmail is not configured.");
+            EngineerToken = configuration["EngineerToken"] ?? throw new Exception("EngineerToken is not configured.");
+
+            Console.WriteLine($"BaseUrl: {baseUrl}");
+            Console.WriteLine($"EngineerEmail: {EngineerEmail}");
+            Console.WriteLine($"EngineerToken: {EngineerToken}");
+
+            // Setup Playwright and Browser
             var playwright = await Playwright.CreateAsync();
             Browser = await playwright.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
             {
                 Headless = false
             });
-            var context = await Browser.NewContextAsync();
+
+            var context = await Browser.NewContextAsync(new BrowserNewContextOptions
+            {
+                BaseURL = baseUrl
+            });
+
             Page = await context.NewPageAsync();
         }
 
         [TearDown]
         public async Task TearDown()
         {
-            await Browser.CloseAsync();
+            if (Browser != null)
+            {
+                await Browser.CloseAsync();
+            }
         }
     }
 }

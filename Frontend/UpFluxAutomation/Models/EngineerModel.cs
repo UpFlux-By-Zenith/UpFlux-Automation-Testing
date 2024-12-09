@@ -1,4 +1,4 @@
-﻿namespace UpFluxAutomation.Models
+﻿namespace UpFluxAutomation.Helpers
 {
     public class EngineerModel
     {

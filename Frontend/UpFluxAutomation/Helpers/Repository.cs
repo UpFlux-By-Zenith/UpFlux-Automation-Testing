@@ -1,37 +1,39 @@
-﻿using System;
+﻿/*using Microsoft.Extensions.Configuration;
 using System.Configuration;
-using System.IO;
-using System.Text.Json;
-using UpFluxAutomation.Models;
 
 namespace UpFluxAutomation.Helpers
 {
     public class Repository
     {
-        public AdminModel GetAdminData()
+        private readonly IConfiguration _configuration;
+
+        public Repository()
         {
-            return new AdminModel
-            {
-                Email = ConfigurationManager.AppSettings["AdminEmail"] ?? throw new ConfigurationErrorsException("AdminEmail is not configured."),
-                Password = ConfigurationManager.AppSettings["AdminPassword"] ?? throw new ConfigurationErrorsException("AdminPassword is not configured.")
-            };
+            // Use ConfigurationBuilder to load settings from appsettings.json
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory()) // Make sure the directory path is correct
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            _configuration = builder.Build();
         }
 
-        public EngineerModel GetEngineerData(string tokenFilePath)
+        public EngineerModel GetEngineerData()
         {
-            if (!File.Exists(tokenFilePath))
-            {
-                throw new FileNotFoundException($"Token file not found: {tokenFilePath}");
-            }
+            var engineerEmail = _configuration["EngineerEmail"];
+            var engineerToken = _configuration["EngineerToken"];
 
-            var tokenData = File.ReadAllText(tokenFilePath);
-            var engineerToken = JsonSerializer.Deserialize<string>(tokenData);
+            if (string.IsNullOrEmpty(engineerEmail))
+                throw new ConfigurationErrorsException("EngineerEmail is not configured.");
+
+            if (string.IsNullOrEmpty(engineerToken))
+                throw new ConfigurationErrorsException("EngineerToken is not configured.");
 
             return new EngineerModel
             {
-                Email = ConfigurationManager.AppSettings["EngineerEmail"] ?? throw new ConfigurationErrorsException("EngineerEmail is not configured."),
-                EngineerToken = engineerToken ?? throw new Exception("EngineerToken is missing in the JSON file.")
+                Email = engineerEmail,
+                EngineerToken = engineerToken
             };
         }
     }
 }
+*/
