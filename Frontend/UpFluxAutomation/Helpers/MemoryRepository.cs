@@ -1,24 +1,19 @@
-﻿using System.Collections.Generic;
-
-namespace UpFluxAutomation.Helpers
+﻿public class MemoryRepository : IRepository
 {
-    public class MemoryRepository
+    private readonly Dictionary<Type, object> _data = new();
+
+    public void Add<T>(T value)
     {
-        private readonly Dictionary<string, object> _data = new();
+        _data[typeof(T)] = value;
+    }
 
-        public void Add(string key, object value)
+    public T Get<T>()
+    {
+        if (_data.TryGetValue(typeof(T), out var value))
         {
-            _data[key] = value;
+            return (T)value;
         }
 
-        public T Get<T>(string key)
-        {
-            if (_data.TryGetValue(key, out var value))
-            {
-                return (T)value;
-            }
-
-            throw new KeyNotFoundException($"The key '{key}' was not found in the repository.");
-        }
+        throw new InvalidOperationException($"Data of type {typeof(T)} not found in the repository.");
     }
 }

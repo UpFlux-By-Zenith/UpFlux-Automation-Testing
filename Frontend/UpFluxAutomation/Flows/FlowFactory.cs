@@ -1,23 +1,26 @@
-﻿using Rebus.Pipeline;
+﻿using Microsoft.Playwright;
 using System;
 using UpFluxAutomation.Helpers;
 using UpFluxAutomation.Steps;
+using UpFluxAutomation.Steps.Abstractions;
 
 namespace UpFluxAutomation.Flows
 {
     public static class FlowFactory
     {
-        public static IStep CreateFlow(PredefinedFlow predefinedFlow, MemoryRepository repository)
+        public static IStep CreateFlow(this PredefinedFlow predefinedFlow, MemoryRepository repository)
         {
-            IStep flow = null;
+            IStep flow;
 
             switch (predefinedFlow)
             {
                 case PredefinedFlow.EngineerLogin:
-                    flow = new NavigateToLoginStep(repository);
+
+                    flow = new NavigateToLogin(repository);
+                    flow.Chain(new FillEngineerDetails(repository))
+                        .Chain(new ClickLoginButton(repository));
                     break;
 
-                // Add cases for other flows here
                 default:
                     throw new ArgumentOutOfRangeException(nameof(predefinedFlow), predefinedFlow, null);
             }

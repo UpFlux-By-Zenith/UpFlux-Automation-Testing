@@ -5,6 +5,7 @@ namespace UpFluxAutomation.Steps.Abstractions
 {
     public interface IStep
     {
-        Task Execute(IPage page); 
+        Task Execute(IPage page);
+        IStep Chain(IStep next);
     }
 }

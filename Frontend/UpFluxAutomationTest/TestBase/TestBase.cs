@@ -3,6 +3,7 @@ using Microsoft.Playwright;
 using NUnit.Framework;
 using System;
 using System.IO;
+using UpFluxAutomation.Helpers;
 
 namespace UpFluxAutomationTest.TestBase
 {
@@ -10,6 +11,7 @@ namespace UpFluxAutomationTest.TestBase
     {
         protected IPage Page;
         protected IBrowser Browser;
+        protected MemoryRepository Repository;
         protected string EngineerEmail;
         protected string EngineerToken;
 

@@ -1,23 +1,25 @@
-﻿using Microsoft.Playwright;
-using NUnit.Framework;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Microsoft.Playwright;
+using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Steps;
+using UpFluxAutomation.Steps.Abstractions;
 
 namespace UpFluxAutomationTest.Assertion
 {
-    public class EngineerLoginAssertion
+    public class EngineerLoginAssertion : BaseStep
     {
-        /// <summary>
-        /// Verifies that the engineer dashboard is visible.
-        /// </summary>
-        /// <param name="page">The Playwright page object.</param>
-        public async Task VerifyEngineerDashboardIsVisibleAsync(IPage page)
+        public EngineerLoginAssertion(MemoryRepository repository) : base(repository) { }
+
+        protected override async Task PerformExecute(IPage page)
         {
-            // Wait for the engineer dashboard selector
-            Console.WriteLine("Verifying engineer dashboard...");
-            var LoginSuccess = page.Locator("#engineerDashboard");
+            Console.WriteLine("Verifying login success message...");
+
+             var successMessageLocator = page.Locator("h4:has-text('You have been logged in successfully')");
 
             // Perform the assertion
-            await Assertions.Expect(LoginSuccess).ToBeVisibleAsync(); 
+            await Assertions.Expect(successMessageLocator).ToBeVisibleAsync();
+
+            Console.WriteLine("Login success message verified successfully.");
         }
     }
 }

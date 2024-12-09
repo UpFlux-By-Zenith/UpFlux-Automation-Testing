@@ -21,8 +21,10 @@ namespace UpFluxAutomation.Steps
             return next;
         }
 
-        public async Task Execute(IPage page)
+        public async Task Execute()
         {
+            var page = Repository.Get<IPage>();
+
             await PerformExecute(page);
 
             if (_next != null)

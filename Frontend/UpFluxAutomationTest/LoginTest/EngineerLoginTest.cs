@@ -1,6 +1,9 @@
 using NUnit.Framework;
-using UpFluxAutomation.Steps;
+using UpFluxAutomation.Flows;
 using UpFluxAutomationTest.TestBase;
+using UpFluxAutomation.Steps.Abstractions;
+using UpFluxAutomation.Helpers;
+using UpFluxAutomationTest.Assertion;
 
 namespace UpFluxAutomation.Tests
 {
@@ -10,13 +13,23 @@ namespace UpFluxAutomation.Tests
         [Test]
         public async Task TestEngineerLogin()
         {
-            Console.WriteLine("Starting TestEngineerLogin...");
+            // Create and initialize EngineerData
+            var engineerData = new EngineerData
+            {
+                Email = EngineerEmail,
+                EngineerToken = EngineerToken
+            };
 
-            var loginSteps = new EngineerLogin();
+            // Initialize Repository 
+            Repository = new MemoryRepository();
+            Repository.Add(engineerData);
 
-            // Execute the engineer login steps
-            await loginSteps.Execute(Page, EngineerEmail, EngineerToken);
+            // Create the predefined flow for EngineerLogin
+            IStep Flow = PredefinedFlow.EngineerLogin.CreateFlow(Repository);
+            Flow.Chain(new EngineerLoginAssertion(Repository));
 
+            // Execute the flow
+            await Flow.Execute(Page);
         }
     }
 }
