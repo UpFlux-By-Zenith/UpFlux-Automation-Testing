@@ -3,7 +3,7 @@ using Microsoft.Playwright;
 using NUnit.Framework;
 using System;
 using System.IO;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 
 namespace UpFluxAutomationTest.TestBase
 {
@@ -14,6 +14,7 @@ namespace UpFluxAutomationTest.TestBase
         protected IRepository Repository;
         protected string EngineerEmail;
         protected string EngineerToken;
+        protected string BaseUrl;
 
         [SetUp]
         public async Task Setup()
@@ -24,11 +25,11 @@ namespace UpFluxAutomationTest.TestBase
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .Build();
 
-            string baseUrl = configuration["BaseUrl"] ?? throw new Exception("BaseUrl is not configured.");
+            BaseUrl = configuration["BaseUrl"] ?? throw new Exception("BaseUrl is not configured.");
             EngineerEmail = configuration["EngineerEmail"] ?? throw new Exception("EngineerEmail is not configured.");
             EngineerToken = configuration["EngineerToken"] ?? throw new Exception("EngineerToken is not configured.");
 
-            Console.WriteLine($"BaseUrl: {baseUrl}");
+            Console.WriteLine($"BaseUrl: {BaseUrl}");
             Console.WriteLine($"EngineerEmail: {EngineerEmail}");
             Console.WriteLine($"EngineerToken: {EngineerToken}");
 
@@ -41,7 +42,7 @@ namespace UpFluxAutomationTest.TestBase
 
             var context = await Browser.NewContextAsync(new BrowserNewContextOptions
             {
-                BaseURL = baseUrl
+                BaseURL = BaseUrl
             });
 
             Page = await context.NewPageAsync();

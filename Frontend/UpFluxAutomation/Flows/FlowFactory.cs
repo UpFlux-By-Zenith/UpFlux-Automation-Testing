@@ -1,7 +1,7 @@
 ﻿using Microsoft.Playwright;
 using System;
 using UpFluxAutomation.Abstractions;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 using UpFluxAutomation.Steps;
 
 namespace UpFluxAutomation.Flows

@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Playwright;
 using UpFluxAutomation.Abstractions;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 
 namespace UpFluxAutomation.Steps
 {
@@ -15,8 +15,9 @@ namespace UpFluxAutomation.Steps
 
             var page = Repository.Get<IPage>();
 
-            await page.Locator("button:has-text('LOG IN')").ClickAsync();
-
+            var Button = page.Locator("button:has-text('LOG IN')");
+            await Button.ClickAsync();
+     
             Console.WriteLine("Login Button Clicked!");
         }
     }

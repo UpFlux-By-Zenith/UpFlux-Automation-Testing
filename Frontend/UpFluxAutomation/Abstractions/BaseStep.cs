@@ -1,6 +1,6 @@
 ﻿using Microsoft.Playwright;
 using System.Threading.Tasks;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 
 namespace UpFluxAutomation.Abstractions
 {

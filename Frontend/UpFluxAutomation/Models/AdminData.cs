@@ -1,4 +1,4 @@
-﻿namespace UpFluxAutomation.Helpers
+﻿namespace UpFluxAutomation.Models
 {
     public class AdminData
     {
