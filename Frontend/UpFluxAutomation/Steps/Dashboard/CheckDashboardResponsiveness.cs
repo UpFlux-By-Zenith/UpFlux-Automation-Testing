@@ -9,9 +9,9 @@ using UpFluxAutomation.Models;
 
 namespace UpFluxAutomation.Steps
 {
-    public class DashboardResponsiveness : BaseStep
+    public class CheckDashboardResponsiveness : BaseStep
     {
-        public DashboardResponsiveness(IRepository repository, IStep next = null) : base(repository, next) { }
+        public CheckDashboardResponsiveness(IRepository repository, IStep next = null) : base(repository, next) { }
 
         protected override async Task PerformExecute()
         {
@@ -20,6 +20,7 @@ namespace UpFluxAutomation.Steps
 
             var viewports = new Dictionary<string, (int Width, int Height)>
         {
+            { "Desktop", (1920, 1000)},
             { "Laptop", (1440, 900) },
             { "Tablet", (768, 1024) },
             { "Mobile", (375, 667) }

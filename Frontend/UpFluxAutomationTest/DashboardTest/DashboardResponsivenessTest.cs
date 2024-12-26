@@ -10,7 +10,7 @@ using UpFluxAutomation.Steps;
 using UpFluxAutomationTest.Assertion;
 using UpFluxAutomationTest.TestBase;
 
-namespace UpFluxAutomation.LoginTest
+namespace UpFluxAutomation.DashboardTest
 {
     [TestFixture]
     public class DashboardResponsivenessTest : TestBase
@@ -20,7 +20,7 @@ namespace UpFluxAutomation.LoginTest
         {
             try
             {
-                Console.WriteLine("Starting TestEngineerLogin...");
+                Console.WriteLine("Starting Dashboard Responsiveness Test...");
 
                 // Create and initialize EngineerData
                 var engineerData = new EngineerData
@@ -33,16 +33,16 @@ namespace UpFluxAutomation.LoginTest
                 Repository.Add(engineerData);
 
                 // Initialize the flow 
-                IStep flow = new  DashboardResponsiveness(Repository);
+                IStep flow = new CheckDashboardResponsiveness(Repository);
 
                 // Execute the flow
                 await flow.Execute();
 
-                Console.WriteLine("EngineerLogin flow executed successfully.");
+                Console.WriteLine("Responsiveness flow executed successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred during TestEngineerLogin: {ex.Message}");
+                Console.WriteLine($"Error occurred during Responsiveness Test: {ex.Message}");
             }
         }
     }
