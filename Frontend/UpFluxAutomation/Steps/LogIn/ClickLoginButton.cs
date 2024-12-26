@@ -17,7 +17,7 @@ namespace UpFluxAutomation.Steps
 
             var Button = page.Locator("button:has-text('LOG IN')");
             await Button.ClickAsync();
-     
+
             Console.WriteLine("Login Button Clicked!");
         }
     }

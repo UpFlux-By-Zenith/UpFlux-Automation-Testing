@@ -13,9 +13,9 @@ namespace UpFluxAutomation.Models
         {
             StringBuilder builder = new StringBuilder();
 
-            builder.AppendLine($"UpFluxEndPoint: {this.UpFluxEndPoint}");
-            builder.AppendLine($"Email: {this.Email}");
-            builder.AppendLine($"EngineerToken: {this.EngineerToken}");
+            builder.AppendLine( String.Format("UpFluxEndPoint{0}:", this.UpFluxEndPoint));
+            builder.AppendLine(String.Format("Email {0}:", this.Email));
+            builder.AppendLine(String.Format("EngineerToken {0}:", this.EngineerToken));
 
             return builder.ToString();
         }

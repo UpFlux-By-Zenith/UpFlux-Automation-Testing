@@ -7,5 +7,7 @@ namespace UpFluxAutomation.Abstractions
     {
         Task Execute();
         IStep Chain(IStep next);
+        IStep GetNext();
+        void SetNext(IStep next); 
     }
 }

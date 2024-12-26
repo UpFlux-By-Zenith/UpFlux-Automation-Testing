@@ -18,9 +18,8 @@ namespace UpFluxAutomation.Steps
             var page = Repository.Get<IPage>();
             var engineerData = Repository.Get<EngineerData>();
 
-
             // Fill in email
-            await page.WaitForTimeoutAsync(1000);
+            await page.Locator("input[placeholder='E-mail']").WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
             await page.Locator("input[placeholder='E-mail']").FillAsync(engineerData.Email);
 
             // Create a temporary JSON file for the token

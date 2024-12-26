@@ -17,9 +17,27 @@ namespace UpFluxAutomation.Abstractions
 
         public IStep Chain(IStep next)
         {
-            _next = next;
+            if (_next == null)
+            {
+                _next = next;
+            }
+            else
+            {
+                var last = _next;
+                while (last != null && last.GetNext() != null)
+                {
+                    last = last.GetNext();
+                }
+
+                last.SetNext(next);
+            }
             return next;
         }
+
+        public IStep GetNext() => _next; 
+
+        public void SetNext(IStep next) => _next = next; 
+
 
         public async Task Execute()
         {
