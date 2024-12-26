@@ -1,16 +1,19 @@
-using NUnit.Framework;
-using UpFluxAutomationTest.TestBase;
+﻿using NUnit.Framework;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UpFluxAutomation.Abstractions;
 using UpFluxAutomation.Models;
 using UpFluxAutomation.Steps;
-using System;
-using UpFluxAutomation.Abstractions;
 using UpFluxAutomationTest.Assertion;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using UpFluxAutomationTest.TestBase;
 
-namespace UpFluxAutomation.Tests
+namespace UpFluxAutomation.LoginTest
 {
     [TestFixture]
-    public class EngineerLoginTests : TestBase
+    public class DashboardResponsivenessTest : TestBase
     {
         [Test]
         public async Task TestEngineerLogin()
@@ -30,11 +33,7 @@ namespace UpFluxAutomation.Tests
                 Repository.Add(engineerData);
 
                 // Initialize the flow 
-                IStep flow = new NavigateToUpFlux(Repository);
-                flow.Chain(new NavigateToLogin(Repository));
-                flow.Chain(new FillEngineerDetails(Repository));
-                flow.Chain(new ClickLoginButton(Repository));
-                flow.Chain(new EngineerLoginAssertion(Repository));
+                IStep flow = new  DashboardResponsiveness(Repository);
 
                 // Execute the flow
                 await flow.Execute();

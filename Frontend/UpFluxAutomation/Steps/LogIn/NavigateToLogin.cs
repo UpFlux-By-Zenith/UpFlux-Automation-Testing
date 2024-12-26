@@ -14,15 +14,6 @@ namespace UpFluxAutomation.Steps
             Console.WriteLine("Navigating to Login Page...");
 
             var page = Repository.Get<IPage>();
-            var engineerData = Repository.Get<EngineerData>();
-
-            if (engineerData == null || string.IsNullOrWhiteSpace(engineerData.UpFluxEndPoint))
-            {
-                throw new InvalidOperationException("EngineerData or UpFluxEndPoint is missing.");
-            }
-
-            await page.GotoAsync(engineerData.UpFluxEndPoint);
-            await page.WaitForTimeoutAsync(1000);
 
             // Click the login link
             await page.Locator("a[href='/login'][data-discover='true']").ClickAsync();

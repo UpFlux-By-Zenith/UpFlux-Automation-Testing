@@ -16,8 +16,9 @@ namespace UpFluxAutomation.Flows
             {
                 case PredefinedFlow.EngineerLogin:
 
-                    flow = new NavigateToLogin(repository);
-                    flow.Chain(new FillEngineerDetails(repository))
+                    flow = new NavigateToUpFlux(repository);
+                    flow.Chain(new NavigateToLogin(repository))
+                        .Chain(new FillEngineerDetails(repository))
                         .Chain(new ClickLoginButton(repository));
                     break;
 
