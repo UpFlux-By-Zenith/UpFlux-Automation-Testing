@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Playwright;
 using UpFluxAutomation.Abstractions;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 using UpFluxAutomation.Steps;
 
 namespace UpFluxAutomationTest.Assertion

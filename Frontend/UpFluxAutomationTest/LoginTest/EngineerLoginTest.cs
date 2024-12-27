@@ -1,10 +1,11 @@
 using NUnit.Framework;
-using UpFluxAutomation.Flows;
 using UpFluxAutomationTest.TestBase;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 using UpFluxAutomation.Steps;
 using System;
 using UpFluxAutomation.Abstractions;
+using UpFluxAutomationTest.Assertion;
+using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
 namespace UpFluxAutomation.Tests
 {
@@ -16,21 +17,29 @@ namespace UpFluxAutomation.Tests
         {
             try
             {
+                Console.WriteLine("Starting TestEngineerLogin...");
+
                 // Create and initialize EngineerData
                 var engineerData = new EngineerData
                 {
+                    UpFluxEndPoint = BaseUrl,
                     Email = EngineerEmail,
                     EngineerToken = EngineerToken
                 };
 
                 Repository.Add(engineerData);
 
-                // Create the predefined flow for EngineerLogin
-                IStep Flow = PredefinedFlow.EngineerLogin.CreateFlow(Repository);
+                // Initialize the flow 
+                IStep flow = new NavigateToUpFlux(Repository);
+                flow.Chain(new NavigateToLogin(Repository));
+                flow.Chain(new FillEngineerDetails(Repository));
+                flow.Chain(new ClickLoginButton(Repository));
+                flow.Chain(new EngineerLoginAssertion(Repository));
 
                 // Execute the flow
-                await Flow.Execute();
+                await flow.Execute();
 
+                Console.WriteLine("EngineerLogin flow executed successfully.");
             }
             catch (Exception ex)
             {
@@ -39,5 +48,3 @@ namespace UpFluxAutomation.Tests
         }
     }
 }
-
-

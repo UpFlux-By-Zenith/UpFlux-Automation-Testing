@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.Playwright;
 using UpFluxAutomation.Abstractions;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 
 namespace UpFluxAutomation.Steps
 {
@@ -15,9 +15,10 @@ namespace UpFluxAutomation.Steps
 
             var page = Repository.Get<IPage>();
 
-            await page.GotoAsync("/login");
+            // Click the login link
+            await page.Locator("a[href='/login'][data-discover='true']").ClickAsync();
 
-            Console.WriteLine("login page Showed...");
+            Console.WriteLine("Login page showed...");
         }
     }
 }

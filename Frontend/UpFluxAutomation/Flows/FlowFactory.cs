@@ -1,7 +1,7 @@
 ﻿using Microsoft.Playwright;
 using System;
 using UpFluxAutomation.Abstractions;
-using UpFluxAutomation.Helpers;
+using UpFluxAutomation.Models;
 using UpFluxAutomation.Steps;
 
 namespace UpFluxAutomation.Flows
@@ -16,8 +16,9 @@ namespace UpFluxAutomation.Flows
             {
                 case PredefinedFlow.EngineerLogin:
 
-                    flow = new NavigateToLogin(repository);
-                    flow.Chain(new FillEngineerDetails(repository))
+                    flow = new NavigateToUpFlux(repository);
+                    flow.Chain(new NavigateToLogin(repository))
+                        .Chain(new FillEngineerDetails(repository))
                         .Chain(new ClickLoginButton(repository));
                     break;
 
