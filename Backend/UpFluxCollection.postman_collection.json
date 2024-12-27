@@ -1203,6 +1203,51 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "GenerateInValidMachineID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													"\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}+x",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Licence/admin/generateId",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Licence",
+												"admin",
+												"generateId"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"description": "Tests the UUID generation endpoint to confirm that a valid UUID is consistently produced and handles unauthorized access properly."
