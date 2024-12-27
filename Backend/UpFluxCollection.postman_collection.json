@@ -1043,6 +1043,17 @@
 													"    pm.response.to.have.status(400);\r",
 													"});\r",
 													"\r",
+													"// Test to verify the specific error message\r",
+													"pm.test(\"Error response structure and message validation\", function () {\r",
+													"    var responseData = pm.response.json();\r",
+													"\r",
+													"    // Verify the error message for MachineId\r",
+													"    pm.expect(responseData).to.have.property(\"errors\");\r",
+													"    pm.expect(responseData.errors).to.have.property(\"MachineId\");\r",
+													"    pm.expect(responseData.errors.MachineId).to.be.an('array').that.includes(\"The MachineId field is required.\");\r",
+													"\r",
+													"});\r",
+													"\r",
 													""
 												],
 												"type": "text/javascript",
@@ -1065,7 +1076,60 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"machineId\": \"machine15\"\r\n}",
+											"raw": "{\r\n  \"machineId\": \"\"\r\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{url}}/Licence/admin/register",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Licence",
+												"admin",
+												"register"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "InvalidAdminToken",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Unauthorized access returns 401\", function () {\r",
+													"    pm.response.to.have.status(401);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}+x",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\r\n  \"machineId\": \"M1\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
