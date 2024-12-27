@@ -1152,6 +1152,60 @@
 								}
 							],
 							"description": "Verifies the functionality of the machine registration endpoint, ensuring correct handling of valid and invalid machine IDs."
+						},
+						{
+							"name": "GenerateUUIDTests",
+							"item": [
+								{
+									"name": "GenerateValidMachineID",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Response body contains machineId\", function () {\r",
+													"    pm.expect(pm.response.json()).to.have.property('machineId');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/Licence/admin/generateId",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"Licence",
+												"admin",
+												"generateId"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "Tests the UUID generation endpoint to confirm that a valid UUID is consistently produced and handles unauthorized access properly."
 						}
 					],
 					"description": "Tests related to licensing operations, including machine registration and UUID generation for device identification."
