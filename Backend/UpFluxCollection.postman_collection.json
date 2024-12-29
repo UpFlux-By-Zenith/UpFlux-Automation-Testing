@@ -1278,6 +1278,56 @@
 				}
 			],
 			"description": "Tests related to licensing operations, including machine registration and UUID generation for device identification."
+		},
+		{
+			"name": "AboutTests",
+			"item": [
+				{
+					"name": "AboutTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and response includes application name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.text()).to.include(\"Application Name: Upflux-WebService\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response body has required headers\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/UpFlux/about",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"UpFlux",
+								"about"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Verifies the functionality of the `/UpFlux/about` endpoint, ensuring it correctly returns a plain text response with a status code of 200."
 		}
 	],
 	"event": [
