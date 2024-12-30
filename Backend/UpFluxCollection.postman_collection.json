@@ -52,11 +52,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/admin/login",
+											"raw": "{{url}}/api/Auth/admin/login",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"admin",
 												"login"
@@ -99,11 +100,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/admin/login",
+											"raw": "{{url}}/api/Auth/admin/login",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"admin",
 												"login"
@@ -182,11 +184,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/admin/change-password",
+											"raw": "{{url}}/api/Auth/admin/change-password",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"admin",
 												"change-password"
@@ -240,11 +243,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/admin/change-password",
+											"raw": "{{url}}/api/Auth/admin/change-password",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"admin",
 												"change-password"
@@ -296,11 +300,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/admin/change-password",
+											"raw": "{{url}}/api/Auth/admin/change-password",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"admin",
 												"change-password"
@@ -360,11 +365,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/admin/create-engineer-token",
+											"raw": "{{url}}/api/Auth/admin/create-engineer-token",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"admin",
 												"create-engineer-token"
@@ -416,11 +422,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/engineer/login",
+											"raw": "{{url}}/api/Auth/engineer/login",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"engineer",
 												"login"
@@ -473,11 +480,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/engineer/login",
+											"raw": "{{url}}/api/Auth/engineer/login",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"engineer",
 												"login"
@@ -545,11 +553,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/parse-token",
+											"raw": "{{url}}/api/Auth/parse-token",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"parse-token"
 											]
@@ -600,11 +609,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/parse-token",
+											"raw": "{{url}}/api/Auth/parse-token",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"parse-token"
 											]
@@ -666,11 +676,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/parse-token",
+											"raw": "{{url}}/api/Auth/parse-token",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"parse-token"
 											]
@@ -737,11 +748,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/engineer/access-machines",
+											"raw": "{{url}}/api/Auth/engineer/access-machines",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"engineer",
 												"access-machines"
@@ -798,11 +810,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/engineer/access-machines",
+											"raw": "{{url}}/api/Auth/engineer/access-machines",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"engineer",
 												"access-machines"
@@ -859,11 +872,12 @@
 											}
 										},
 										"url": {
-											"raw": "{{url}}/Auth/engineer/access-machines",
+											"raw": "{{url}}/api/Auth/engineer/access-machines",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"engineer",
 												"access-machines"
@@ -914,11 +928,12 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/Auth/shared-endpoint",
+											"raw": "{{url}}/api/Auth/shared-endpoint",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"shared-endpoint"
 											]
@@ -962,11 +977,12 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/Auth/shared-endpoint",
+											"raw": "{{url}}/api/Auth/shared-endpoint",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"shared-endpoint"
 											]
@@ -975,7 +991,7 @@
 									"response": []
 								},
 								{
-									"name": "UnauthorizedAcess",
+									"name": "UnauthorizedAccess",
 									"event": [
 										{
 											"listen": "test",
@@ -1008,11 +1024,12 @@
 										"method": "GET",
 										"header": [],
 										"url": {
-											"raw": "{{url}}/Auth/shared-endpoint",
+											"raw": "{{url}}/api/Auth/shared-endpoint",
 											"host": [
 												"{{url}}"
 											],
 											"path": [
+												"api",
 												"Auth",
 												"shared-endpoint"
 											]
@@ -1025,238 +1042,292 @@
 						}
 					],
 					"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
-				},
-				{
-					"name": "LicenseTests",
-					"item": [
-						{
-							"name": "RegisterMachineTests",
-							"item": [
-								{
-									"name": "InvalidMachineID",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status(400);\r",
-													"});\r",
-													"\r",
-													"// Test to verify the specific error message\r",
-													"pm.test(\"Error response structure and message validation\", function () {\r",
-													"    var responseData = pm.response.json();\r",
-													"\r",
-													"    // Verify the error message for MachineId\r",
-													"    pm.expect(responseData).to.have.property(\"errors\");\r",
-													"    pm.expect(responseData.errors).to.have.property(\"MachineId\");\r",
-													"    pm.expect(responseData.errors.MachineId).to.be.an('array').that.includes(\"The MachineId field is required.\");\r",
-													"\r",
-													"});\r",
-													"\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"machineId\": \"\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{url}}/Licence/admin/register",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"Licence",
-												"admin",
-												"register"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "InvalidAdminToken",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Unauthorized access returns 401\", function () {\r",
-													"    pm.response.to.have.status(401);\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}+x",
-													"type": "string"
-												}
-											]
-										},
-										"method": "POST",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "{\r\n  \"machineId\": \"M1\"\r\n}",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{url}}/Licence/admin/register",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"Licence",
-												"admin",
-												"register"
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"description": "Verifies the functionality of the machine registration endpoint, ensuring correct handling of valid and invalid machine IDs."
-						},
-						{
-							"name": "GenerateUUIDTests",
-							"item": [
-								{
-									"name": "GenerateValidMachineID",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Response body contains machineId\", function () {\r",
-													"    pm.expect(pm.response.json()).to.have.property('machineId');\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/Licence/admin/generateId",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"Licence",
-												"admin",
-												"generateId"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "GenerateInValidMachineID",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 401\", function () {\r",
-													"    pm.response.to.have.status(401);\r",
-													"});\r",
-													"\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}+x",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/Licence/admin/generateId",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"Licence",
-												"admin",
-												"generateId"
-											]
-										}
-									},
-									"response": []
-								}
-							],
-							"description": "Tests the UUID generation endpoint to confirm that a valid UUID is consistently produced and handles unauthorized access properly."
-						}
-					],
-					"description": "Tests related to licensing operations, including machine registration and UUID generation for device identification."
 				}
 			],
 			"description": "Validate the security and functionality of authentication and authorization endpoints, ensuring proper access control and data handling."
+		},
+		{
+			"name": "LicenseTests",
+			"item": [
+				{
+					"name": "RegisterMachineTests",
+					"item": [
+						{
+							"name": "InvalidMachineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"// Test to verify the specific error message\r",
+											"pm.test(\"Error response structure and message validation\", function () {\r",
+											"    var responseData = pm.response.json();\r",
+											"\r",
+											"    // Verify the error message for MachineId\r",
+											"    pm.expect(responseData).to.have.property(\"errors\");\r",
+											"    pm.expect(responseData.errors).to.have.property(\"MachineId\");\r",
+											"    pm.expect(responseData.errors.MachineId).to.be.an('array').that.includes(\"The MachineId field is required.\");\r",
+											"\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"machineId\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Licence/admin/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Licence",
+										"admin",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidAdminToken",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Unauthorized access returns 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}+x",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"machineId\": \"M1\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Licence/admin/register",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Licence",
+										"admin",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Verifies the functionality of the machine registration endpoint, ensuring correct handling of valid and invalid machine IDs."
+				},
+				{
+					"name": "GenerateUUIDTests",
+					"item": [
+						{
+							"name": "GenerateValidMachineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains machineId\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('machineId');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/Licence/admin/generateId",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Licence",
+										"admin",
+										"generateId"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "GenerateInValidMachineID",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}+x",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/Licence/admin/generateId",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Licence",
+										"admin",
+										"generateId"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Tests the UUID generation endpoint to confirm that a valid UUID is consistently produced and handles unauthorized access properly."
+				}
+			],
+			"description": "Tests related to licensing operations, including machine registration and UUID generation for device identification."
+		},
+		{
+			"name": "AboutTests",
+			"item": [
+				{
+					"name": "AboutTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200 and response includes application name\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"    pm.expect(pm.response.text()).to.include(\"Application Name: Upflux-WebService\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response body has required headers\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/UpFlux/about",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"UpFlux",
+								"about"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Verifies the functionality of the `/UpFlux/about` endpoint, ensuring it correctly returns a plain text response with a status code of 200."
 		}
 	],
 	"event": [
