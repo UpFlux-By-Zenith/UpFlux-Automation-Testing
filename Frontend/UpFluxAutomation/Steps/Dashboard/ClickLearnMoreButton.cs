@@ -22,6 +22,7 @@ namespace UpFluxAutomation.Steps
             // Locate and click the button by its visible text
             var buttonLocator = page.Locator("span.m_811560b9.mantine-Button-label:text('Learn More')");
             await buttonLocator.ClickAsync();
+            await page.WaitForTimeoutAsync(2000);
 
             Console.WriteLine("Learn More Button Has been Cliked");
         }

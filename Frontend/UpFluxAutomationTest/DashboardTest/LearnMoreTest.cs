@@ -33,8 +33,9 @@ namespace UpFluxAutomation.DashboardTest
                 Repository.Add(engineerData);
 
                 // Initialize the flow 
-                IStep flow = new CheckDashboardResponsiveness(Repository);
+                IStep flow = new NavigateToUpFlux(Repository);
                 flow.Chain(new ClickLearnMoreButton(Repository));
+                flow.Chain(new LearnMoreAssertion(Repository));
 
                 // Execute the flow
                 await flow.Execute();
