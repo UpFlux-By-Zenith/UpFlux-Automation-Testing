@@ -14,7 +14,7 @@ namespace UpFluxAutomationTest.Assertion
 
         protected override async Task PerformExecute()
         {
-            Console.WriteLine("Verifying Update Management Access...");
+            Console.WriteLine("Checking Update Management Page...");
 
             var page = Repository.Get<IPage>();
 
@@ -24,7 +24,7 @@ namespace UpFluxAutomationTest.Assertion
             // Perform the assertion
             await Assertions.Expect(UpdateManagementLocator).ToBeVisibleAsync();
 
-            Console.WriteLine("Update Management Section have been accessed.");
+            Console.WriteLine("Update Management Page have been checked.");
         }
     }
 }

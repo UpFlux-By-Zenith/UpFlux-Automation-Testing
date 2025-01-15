@@ -5,19 +5,19 @@ using UpFluxAutomation.Steps;
 using System;
 using UpFluxAutomation.Abstractions;
 using UpFluxAutomationTest.Assertion;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using UpFluxAutomation.Steps.UpdateManagemet;
 
-namespace UpFluxAutomation.Tests
+namespace UpFluxAutomation.UpdateManagementTest
 {
     [TestFixture]
-    public class UpdateManagementTest : TestBase
+    public class CheckMachinesTest : TestBase
     {
         [Test]
-        public async Task TestUpdateManagement()
+        public async Task TestCheckMachines()
         {
             try
             {
-                Console.WriteLine("Starting TestEngineerLogin...");
+                Console.WriteLine("Starting Check Machines Test...");
 
                 // Create and initialize EngineerData
                 var engineerData = new EngineerData
@@ -35,15 +35,17 @@ namespace UpFluxAutomation.Tests
                 flow.Chain(new FillEngineerDetails(Repository));
                 flow.Chain(new ClickLoginButton(Repository));
                 flow.Chain(new EngineerLoginAssertion(Repository));
+                flow.Chain(new CheckMachines(Repository));
+                flow.Chain(new UpdateManagementAssertion(Repository));
 
                 // Execute the flow
                 await flow.Execute();
 
-                Console.WriteLine("EngineerLogin flow executed successfully.");
+                Console.WriteLine("Check Machines flow executed successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred during TestEngineerLogin: {ex.Message}");
+                Console.WriteLine($"Error occurred during CheckMachinesTest: {ex.Message}");
             }
         }
     }
