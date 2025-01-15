@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Playwright;
@@ -29,12 +30,6 @@ namespace UpFluxAutomation.Steps
 
             // Upload the token JSON file
             await page.Locator("input[type='file']").SetInputFilesAsync(tempFilePath);
-
-            // Clean up the temporary file
-            if (File.Exists(tempFilePath))
-            {
-                File.Delete(tempFilePath);
-            }
 
             Console.WriteLine("Engineer Details Filled Successfully.");
         }
