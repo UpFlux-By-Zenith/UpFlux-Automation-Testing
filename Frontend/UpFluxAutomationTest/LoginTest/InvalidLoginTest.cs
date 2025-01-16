@@ -34,7 +34,7 @@ namespace UpFluxAutomation.Tests
                 flow.Chain(new NavigateToLogin(Repository));
                 flow.Chain(new FillInvalidEngineerDetails(Repository));
                 flow.Chain(new ClickLoginButton(Repository));
-                flow.Chain(new EngineerLoginAssertion(Repository));
+                flow.Chain(new InvalidLoginAssertion(Repository));
 
                 // Execute the flow
                 await flow.Execute();

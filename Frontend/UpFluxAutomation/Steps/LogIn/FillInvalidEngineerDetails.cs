@@ -30,6 +30,7 @@ namespace UpFluxAutomation.Steps
 
             // Upload the token JSON file
             await page.Locator("input[type='file']").SetInputFilesAsync(tempFilePath);
+            await page.WaitForTimeoutAsync(2800);
 
             Console.WriteLine("Invalid Engineer Details Filled Successfully.");
         }
