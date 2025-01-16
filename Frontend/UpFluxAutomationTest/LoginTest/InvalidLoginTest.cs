@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UpFluxAutomationTest.TestBase;
 using UpFluxAutomation.Models;
 using UpFluxAutomation.Steps;
@@ -10,14 +10,14 @@ using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 namespace UpFluxAutomation.Tests
 {
     [TestFixture]
-    public class EngineerLoginTests : TestBase
+    public class InvalidLoginTest : TestBase
     {
         [Test]
-        public async Task TestEngineerLogin()
+        public async Task TestInvalidEngineerLogin()
         {
             try
             {
-                Console.WriteLine("Starting TestEngineerLogin...");
+                Console.WriteLine("Starting Test Invalid Engineer Login...");
 
                 // Create and initialize EngineerData
                 var engineerData = new EngineerData
@@ -34,16 +34,16 @@ namespace UpFluxAutomation.Tests
                 flow.Chain(new NavigateToLogin(Repository));
                 flow.Chain(new FillInvalidEngineerDetails(Repository));
                 flow.Chain(new ClickLoginButton(Repository));
-                //flow.Chain(new EngineerLoginAssertion(Repository));
+                flow.Chain(new EngineerLoginAssertion(Repository));
 
                 // Execute the flow
                 await flow.Execute();
 
-                Console.WriteLine("EngineerLogin flow executed successfully.");
+                Console.WriteLine("Invalid Engineer Login flow executed successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred during TestEngineerLogin: {ex.Message}");
+                Console.WriteLine($"Error occurred during Test Invalid EngineerLogin: {ex.Message}");
             }
         }
     }
