@@ -11,14 +11,14 @@ namespace UpFluxAutomation.Steps.VersionControl
 
         protected override async Task PerformExecute()
         {
-            Console.WriteLine("Select App option...");
+            Console.WriteLine("Select App Version option...");
 
             var page = Repository.Get<IPage>();
 
             var secondOptionLocator = page.Locator("role=listbox >> nth=1");
             await secondOptionLocator.ClickAsync();
 
-            Console.WriteLine("App option selected...");
+            Console.WriteLine("App Version option selected...");
         }
     }
 }

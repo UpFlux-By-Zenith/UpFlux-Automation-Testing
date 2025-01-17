@@ -15,7 +15,7 @@ namespace UpFluxAutomation.Steps.UpdateManagemet
 
             var page = Repository.Get<IPage>();
 
-            var viewButtonLocator = page.Locator("tr.m_4e7aa4fd.mantine-Table-tr td.m_4e7aa4ef.mantine-Table-td:has(a[data-discover='true'] img.view):nth-match(1)");
+            var viewButtonLocator = page.Locator("tr.m_4e7aa4fd.mantine-Table-tr td.m_4e7aa4ef.mantine-Table-td >> a[data-discover='true'] >> nth=0 >> img.view");
             await viewButtonLocator.ClickAsync();
 
             Console.WriteLine("View Button Cliked...");
