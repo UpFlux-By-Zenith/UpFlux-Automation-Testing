@@ -7,7 +7,7 @@ using UpFluxAutomation.Abstractions;
 using UpFluxAutomationTest.Assertion;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel;
 
-namespace UpFluxAutomation.Tests
+namespace UpFluxAutomation.LoginTest
 {
     [TestFixture]
     public class InvalidLoginTest : TestBase

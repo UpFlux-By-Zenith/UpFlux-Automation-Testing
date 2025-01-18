@@ -15,8 +15,12 @@ namespace UpFluxAutomation.Steps.VersionControl
 
             var page = Repository.Get<IPage>();
 
-            var secondOptionLocator = page.Locator("role=listbox >> nth=1"); 
-            await secondOptionLocator.ClickAsync();
+            var dropdownLocator = page.Locator("input[placeholder='Select App']");
+            await dropdownLocator.ClickAsync();
+
+            await page.WaitForSelectorAsync("div[data-combobox-option='true']");
+            var appOptionLocator = page.Locator("div[data-combobox-option='true']").Nth(2); 
+            await appOptionLocator.ClickAsync();
 
             Console.WriteLine("App option selected...");
         }

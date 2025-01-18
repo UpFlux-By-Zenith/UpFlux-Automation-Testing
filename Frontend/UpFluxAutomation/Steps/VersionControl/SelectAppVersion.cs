@@ -15,8 +15,12 @@ namespace UpFluxAutomation.Steps.VersionControl
 
             var page = Repository.Get<IPage>();
 
-            var secondOptionLocator = page.Locator("role=listbox >> nth=1");
-            await secondOptionLocator.ClickAsync();
+            var dropdownVersionLocator = page.Locator("input[placeholder='Select App Version']");
+            await dropdownVersionLocator.ClickAsync();
+
+            var selectAppVersionLocator = page.Locator("div.m_92253aa5.mantine-Select-option[data-combobox-option='true']:has-text('Version')").Nth(2);
+            await selectAppVersionLocator.ClickAsync();
+            await page.WaitForTimeoutAsync(1000);
 
             Console.WriteLine("App Version option selected...");
         }

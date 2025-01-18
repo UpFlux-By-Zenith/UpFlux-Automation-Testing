@@ -8,7 +8,7 @@ using UpFluxAutomationTest.Assertion;
 using UpFluxAutomation.Steps.UpdateManagemet;
 using UpFluxAutomation.Steps.VersionControl;
 
-namespace UpFluxAutomation.Test
+namespace UpFluxAutomation.VersionControlTest
 {
     [TestFixture]
     public class SelectAppVersionTest : TestBase
@@ -37,6 +37,7 @@ namespace UpFluxAutomation.Test
                 flow.Chain(new ClickLoginButton(Repository));
                 flow.Chain(new EngineerLoginAssertion(Repository));
                 flow.Chain(new ClickViewIcon(Repository));
+                flow.Chain(new ClickAppVersionButton(Repository));
                 flow.Chain(new SelectApp(Repository));
                 flow.Chain(new SelectAppVersion(Repository));
 
