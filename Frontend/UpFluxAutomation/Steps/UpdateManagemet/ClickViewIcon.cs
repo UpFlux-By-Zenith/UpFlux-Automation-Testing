@@ -22,4 +22,3 @@ namespace UpFluxAutomation.Steps.UpdateManagemet
         }
     }
 }
-
