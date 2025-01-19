@@ -20,6 +20,7 @@ namespace UpFluxAutomation.Steps.UpdateManagemet
 
             // Click the smart Update button
             await smartUpdateButtonLocator.ClickAsync();
+            await page.WaitForLoadStateAsync();
 
             Console.WriteLine("Smart Update button clicked.");
         }
