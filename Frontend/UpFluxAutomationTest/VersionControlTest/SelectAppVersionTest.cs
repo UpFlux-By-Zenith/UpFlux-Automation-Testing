@@ -37,6 +37,7 @@ namespace UpFluxAutomation.VersionControlTest
                 flow.Chain(new ClickLoginButton(Repository));
                 flow.Chain(new EngineerLoginAssertion(Repository));
                 flow.Chain(new ClickViewIcon(Repository));
+                flow.Chain(new VersionControlAssertion(Repository));
                 flow.Chain(new ClickAppVersionButton(Repository));
                 flow.Chain(new SelectApp(Repository));
                 flow.Chain(new SelectAppVersion(Repository));
