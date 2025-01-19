@@ -12,17 +12,17 @@ namespace UpFluxAutomationTest.Assertion
 
         protected override async Task PerformExecute()
         {
-            Console.WriteLine("Verifying login success message...");
+            Console.WriteLine("Verifying login successed...");
 
             var page = Repository.Get<IPage>();
 
-            await page.WaitForLoadStateAsync();
-            var successMessageLocator = page.Locator("h4:has-text('You have been logged in successfully')");
-
+            await page.WaitForLoadStateAsync(); 
+            var successMessageLocator = page.Locator("text=Update Management");
+            
             // Perform the assertion
             await Assertions.Expect(successMessageLocator).ToBeVisibleAsync();
 
-            Console.WriteLine("Login success message verified successfully.");
+            Console.WriteLine("Login have successed.");
         }
     }
 }

@@ -1,23 +1,23 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UpFluxAutomationTest.TestBase;
 using UpFluxAutomation.Models;
 using UpFluxAutomation.Steps;
 using System;
 using UpFluxAutomation.Abstractions;
 using UpFluxAutomationTest.Assertion;
-using Microsoft.VisualStudio.TestPlatform.ObjectModel;
+using UpFluxAutomation.Steps.UpdateManagemet;
 
-namespace UpFluxAutomation.LoginTest
+namespace UpFluxAutomation.ClusteringTest
 {
     [TestFixture]
-    public class EngineerLoginTests : TestBase
+    public class ClusteringTest : TestBase
     {
         [Test]
-        public async Task TestEngineerLogin()
+        public async Task TestClustering()
         {
             try
             {
-                Console.WriteLine("Starting TestEngineerLogin...");
+                Console.WriteLine("Starting Clustering Test...");
 
                 // Create and initialize EngineerData
                 var engineerData = new EngineerData
@@ -35,15 +35,17 @@ namespace UpFluxAutomation.LoginTest
                 flow.Chain(new FillEngineerDetails(Repository));
                 flow.Chain(new ClickLoginButton(Repository));
                 flow.Chain(new EngineerLoginAssertion(Repository));
+                flow.Chain(new ClickSmartUpdateButton(Repository));
+                flow.Chain(new ClusteringAssertion(Repository));
 
                 // Execute the flow
                 await flow.Execute();
 
-                Console.WriteLine("EngineerLogin flow executed successfully.");
+                Console.WriteLine("Clustering flow executed successfully.");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error occurred during TestEngineerLogin: {ex.Message}");
+                Console.WriteLine($"Error occurred during Clustering Test: {ex.Message}");
             }
         }
     }

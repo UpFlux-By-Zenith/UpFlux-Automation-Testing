@@ -8,20 +8,20 @@ using UpFluxAutomation.Models;
 
 namespace UpFluxAutomation.Steps
 {
-    public class FillEngineerDetails : BaseStep
+    public class FillInvalidEngineerDetails : BaseStep
     {
-        public FillEngineerDetails(IRepository repository, IStep next = null) : base(repository, next) { }
+        public FillInvalidEngineerDetails(IRepository repository, IStep next = null) : base(repository, next) { }
 
         protected override async Task PerformExecute()
         {
-            Console.WriteLine("Filling Engineer Details...");
+            Console.WriteLine("Filling Inavalid Engineer Details...");
 
             var page = Repository.Get<IPage>();
             var engineerData = Repository.Get<EngineerData>();
 
             // Fill in email
             await page.Locator("input[placeholder='E-mail']").WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
-            await page.Locator("input[placeholder='E-mail']").FillAsync(engineerData.Email);
+            await page.Locator("input[placeholder='E-mail']").FillAsync("");
 
             // Create a temporary JSON file for the token
             var tempFilePath = Path.Combine(Path.GetTempPath(), "engineerToken.json");
@@ -30,8 +30,9 @@ namespace UpFluxAutomation.Steps
 
             // Upload the token JSON file
             await page.Locator("input[type='file']").SetInputFilesAsync(tempFilePath);
+            await page.WaitForTimeoutAsync(1500);
 
-            Console.WriteLine("Engineer Details Filled Successfully.");
+            Console.WriteLine("Invalid Engineer Details Filled Successfully.");
         }
     }
 }
