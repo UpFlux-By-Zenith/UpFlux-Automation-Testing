@@ -118,6 +118,56 @@
 							"description": "Verify the login process for admin users, including valid and invalid credentials."
 						},
 						{
+							"name": "AdminTest",
+							"item": [
+								{
+									"name": "AdminListTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/Admin/list",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"list"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "Get and validate a list of all admins in UpFlux"
+						},
+						{
 							"name": "AdminPasswordChange",
 							"item": [
 								{
@@ -266,7 +316,7 @@
 													"// Test weak password response\r",
 													"pm.test(\"Weak password response\", function () {\r",
 													"    //pm.expect(pm.response.code).to.equal(400);\r",
-													"     pm.expect(pm.response.code).to.equal(200);\r",
+													"     pm.expect(pm.response.code).to.equal(401);\r",
 													"    //pm.expect(pm.response.json().message).to.equal(\"Password is too weak\");\r",
 													"});\r",
 													""
