@@ -1603,6 +1603,73 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "AddUriTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body has required headers\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is in JSON format\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"pm.test(\"Message contains added to group\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.include(\"added to group\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"groupId\": \"{{engineerToken}}\",\r\n  \"uri\": \"2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url }}/api/Notification/add-uri",
+							"host": [
+								"{{url }}"
+							],
+							"path": [
+								"api",
+								"Notification",
+								"add-uri"
+							]
+						}
+					},
+					"response": []
 				}
 			],
 			"description": "Verify the functionalities of create group, add uri and remove uri in notification endpoints."
