@@ -1139,6 +1139,107 @@
 						}
 					],
 					"description": "Tests access control to machine data and shared endpoints, verifying responses for valid, expired, or missing tokens and role-based restrictions."
+				},
+				{
+					"name": "AplicationTests",
+					"item": [
+						{
+							"name": "ApplicationTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"\r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.applications).to.exist.and.to.be.an('array');\r",
+											"    responseData.applications.forEach(function(application) {\r",
+											"        pm.expect(application).to.have.property('appId');\r",
+											"        pm.expect(application).to.have.property('machineId');\r",
+											"        pm.expect(application).to.have.property('appName');\r",
+											"        pm.expect(application).to.have.property('addedBy');\r",
+											"        pm.expect(application).to.have.property('currentVersion');\r",
+											"        pm.expect(application).to.have.property('versions').and.to.be.an('array');\r",
+											"        application.versions.forEach(function(version) {\r",
+											"            pm.expect(version).to.have.property('versionId');\r",
+											"            pm.expect(version).to.have.property('appId');\r",
+											"            pm.expect(version).to.have.property('versionName');\r",
+											"            pm.expect(version).to.have.property('updatedBy');\r",
+											"            pm.expect(version).to.have.property('date');\r",
+											"        });\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Versions array is present and contains expected number of elements\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"  \r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.applications).to.be.an('array');\r",
+											"  pm.expect(responseData.applications[0].versions).to.be.an('array');\r",
+											"  pm.expect(responseData.applications[0].versions).to.have.lengthOf.at.least(1, \"Versions array should contain at least one element\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Versions array properties are non-empty strings\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.applications).to.be.an('array');\r",
+											"    \r",
+											"    responseData.applications.forEach(application => {\r",
+											"        pm.expect(application.versions).to.be.an('array');\r",
+											"        \r",
+											"        application.versions.forEach(version => {\r",
+											"            pm.expect(version.versionName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Version name should not be empty\");\r",
+											"            pm.expect(version.updatedBy).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Updated by should not be empty\");\r",
+											"            pm.expect(version.date).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Date should not be empty\");\r",
+											"        });\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url }}/api/DataRequest/applications",
+									"host": [
+										"{{url }}"
+									],
+									"path": [
+										"api",
+										"DataRequest",
+										"applications"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Display the data requested for the applications available in UpFlux."
 				}
 			],
 			"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
