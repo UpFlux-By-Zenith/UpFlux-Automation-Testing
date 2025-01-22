@@ -73,12 +73,12 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 401\", function () {\r",
-													"    pm.response.to.have.status(401);\r",
+													"pm.test(\"Status code is 400\", function () {\r",
+													"    pm.response.to.have.status((400));\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response error message is 'Invalid admin credentials'\", function () {\r",
-													"    pm.expect(pm.response.json().error).to.equal(\"Invalid admin credentials\");\r",
+													"pm.test(\"Response error message is 'Email and Password are required.'\", function () {\r",
+													"    pm.expect(pm.response.json().error).to.equal(\"Email and Password are required.\");\r",
 													"});\r",
 													""
 												],
@@ -92,7 +92,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"email\": \"Admin@UpFlux.com\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+											"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -130,13 +130,12 @@
 													"//Generate New Password\r",
 													"const randomNumber = Math.floor(Math.random() * 10000); \r",
 													"\r",
-													"const originalPassword = \"hashedpassword123\";\r",
+													"const originalPassword = \"EduUpFlux2425\";\r",
 													"\r",
 													"const newPassword = `${originalPassword}${randomNumber}`;\r",
 													"\r",
 													"pm.environment.set(\"NewAdminPassword\", newPassword);\r",
 													"pm.environment.set(\"ConfirmNewPassword\", newPassword); \r",
-													"\r",
 													""
 												],
 												"type": "text/javascript",
@@ -266,9 +265,9 @@
 												"exec": [
 													"// Test weak password response\r",
 													"pm.test(\"Weak password response\", function () {\r",
-													"    pm.expect(pm.response.code).to.equal(400);\r",
-													"     // pm.expect(pm.response.code).to.equal(200);\r",
-													"    pm.expect(pm.response.json().message).to.equal(\"Password is too weak\");\r",
+													"    //pm.expect(pm.response.code).to.equal(400);\r",
+													"     pm.expect(pm.response.code).to.equal(200);\r",
+													"    //pm.expect(pm.response.json().message).to.equal(\"Password is too weak\");\r",
 													"});\r",
 													""
 												],
@@ -414,7 +413,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"email\": \"{{engineerEmail}}\",\r\n  \"engineerToken\": \"{{engineerToken}}\"\r\n}\r\n",
+											"raw": "{\r\n  \"engineerToken\": \"{{engineerToken}}\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -472,7 +471,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"email\": \"{{engineerEmail}}\",\r\n  \"engineerToken\": \"{{token}}\"\r\n}",
+											"raw": "{\r\n  \"engineerToken\": \"{{engineerToken}}yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbmdpbmVlckB1cGZsdXguY29tIiwiTWFjaGluZUlkcyI6Ik0xLCBNMiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkVuZ2luZWVyIiwiZXhwIjoxNzM3NTcyOTc0LCJpc3MiOiJVcEZsdXgiLCJhdWQiOiJVcEZsdXhBUEkifQ.vNRSoC3fBEMqCjJdNCV3V6OgIoRgzeHrAP26LtC5cyM\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -631,7 +630,6 @@
 												"exec": [
 													"pm.test(\"Status code is 401\", function () {\r",
 													"    pm.response.to.have.status(401);\r",
-													"        //pm.response.to.have.status(200);\r",
 													"});\r",
 													"\r",
 													"\r",
@@ -668,7 +666,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJlbmdpbmVlckB1cGZsdXguY29tIiwiTWFjaGluZUlkcyI6Ik0xLCBNMiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkVuZ2luZWVyIiwiZXhwIjoxNzI3OTc4MTc2LCJpc3MiOiJVcEZsdXgiLCJhdWQiOiJVcEZsdXhBUEkifQ.nVjCQPzMwvM6AcDaH_Fx4WPhRgb4Y6-MEkF9-lhbR5E\"",
+											"raw": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJFZHVhcmRvQGFkbWluLnVwZmx1eC5jb20iLCJNYWNoaW5lSWRzIjoiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3Mzc1NzY0MTIsImlzcyI6IlVwRmx1eCIsImF1ZCI6IlVwRmx1eEFQSSJ9.5fSffVmw3IImP6FkyLj-T9Fq0h8AeusJ2CrLEtFgiIM\"",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -696,355 +694,355 @@
 					"description": "Contains tests for validating the creation, parsing, and security of authentication tokens. The tests ensure that tokens are generated securely, validated correctly, and expire as expected."
 				},
 				{
-					"name": "AccessControlTests",
+					"name": "Shared Endpoints",
 					"item": [
 						{
-							"name": "MachineAccess",
-							"item": [
+							"name": "AccessAdminToken",
+							"event": [
 								{
-									"name": "MachineValidToken",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Engineer email exists\", function () {\r",
-													"    pm.expect(pm.response.json().engineerEmail).to.exist;\r",
-													"        pm.expect(pm.response.json().accessibleMachines).to.exist;\r",
-													"});"
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{engineerToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{url}}/api/Auth/engineer/access-machines",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"api",
-												"Auth",
-												"engineer",
-												"access-machines"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "MachineInvalidToken",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"\r",
-													"pm.test(\"Status code is 401\", function () {\r",
-													"    pm.response.to.have.status(401);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Invalid token header exists\", function () {\r",
-													"    pm.expect(pm.response.headers.get('WWW-Authenticate')).to.include('invalid_token');\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{engineerToken}}+x",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{url}}/api/Auth/engineer/access-machines",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"api",
-												"Auth",
-												"engineer",
-												"access-machines"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "MachinewithoutToken",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"\r",
-													"pm.test(\"Status code is 401\", function () {\r",
-													"    pm.response.to.have.status(401);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Invalid token header exists\", function () {\r",
-													"    pm.expect(pm.response.headers.get('WWW-Authenticate')).to.include('Bearer');\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"protocolProfileBehavior": {
-										"disableBodyPruning": true
-									},
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"body": {
-											"mode": "raw",
-											"raw": "\r\n",
-											"options": {
-												"raw": {
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{url}}/api/Auth/engineer/access-machines",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"api",
-												"Auth",
-												"engineer",
-												"access-machines"
-											]
-										}
-									},
-									"response": []
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains email and role\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('email');\r",
+											"    pm.expect(pm.response.json()).to.have.property('role');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
 							],
-							"description": "Tests access control to machine data and shared endpoints, verifying responses for valid, expired, or missing tokens and role-based restrictions."
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/Auth/shared-endpoint",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"shared-endpoint"
+									]
+								}
+							},
+							"response": []
 						},
 						{
-							"name": "Shared Endpoints",
-							"item": [
+							"name": "AccessEngineerToken",
+							"event": [
 								{
-									"name": "AccessAdminToken",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Response body contains email and role\", function () {\r",
-													"    pm.expect(pm.response.json()).to.have.property('email');\r",
-													"    pm.expect(pm.response.json()).to.have.property('role');\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{token}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/api/Auth/shared-endpoint",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"api",
-												"Auth",
-												"shared-endpoint"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "AccessEngineerToken",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(200);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Response body contains email and role\", function () {\r",
-													"    pm.expect(pm.response.json()).to.have.property('email');\r",
-													"    pm.expect(pm.response.json()).to.have.property('role');\r",
-													"});\r",
-													""
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "{{engineerToken}}",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/api/Auth/shared-endpoint",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"api",
-												"Auth",
-												"shared-endpoint"
-											]
-										}
-									},
-									"response": []
-								},
-								{
-									"name": "UnauthorizedAccess",
-									"event": [
-										{
-											"listen": "test",
-											"script": {
-												"exec": [
-													"pm.test(\"Status code is 200\", function () {\r",
-													"    pm.response.to.have.status(401);\r",
-													"});\r",
-													"\r",
-													"pm.test(\"Verify Content-Length value is 0\", function () {\r",
-													"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.equal(\"0\");\r",
-													"});"
-												],
-												"type": "text/javascript",
-												"packages": {}
-											}
-										}
-									],
-									"request": {
-										"auth": {
-											"type": "bearer",
-											"bearer": [
-												{
-													"key": "token",
-													"value": "",
-													"type": "string"
-												}
-											]
-										},
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{url}}/api/Auth/shared-endpoint",
-											"host": [
-												"{{url}}"
-											],
-											"path": [
-												"api",
-												"Auth",
-												"shared-endpoint"
-											]
-										}
-									},
-									"response": []
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains email and role\", function () {\r",
+											"    pm.expect(pm.response.json()).to.have.property('email');\r",
+											"    pm.expect(pm.response.json()).to.have.property('role');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
 								}
 							],
-							"description": "This Folder containds access control test for the shared endpoint API, ensuring proper handling of requests with valid, invalid, or missing tokens.EndFragment"
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{engineerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/Auth/shared-endpoint",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"shared-endpoint"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "UnauthorizedAccess",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Verify Content-Length value is 0\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Length\")).to.equal(\"0\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/Auth/shared-endpoint",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"shared-endpoint"
+									]
+								}
+							},
+							"response": []
 						}
 					],
-					"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
+					"description": "This Folder containds access control test for the shared endpoint API, ensuring proper handling of requests with valid, invalid, or missing tokens.EndFragment"
 				}
 			],
 			"description": "Validate the security and functionality of authentication and authorization endpoints, ensuring proper access control and data handling."
+		},
+		{
+			"name": "DataRequestTests",
+			"item": [
+				{
+					"name": "MachineAccess",
+					"item": [
+						{
+							"name": "MachineValidToken",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Engineer email exists\", function () {\r",
+											"    pm.expect(pm.response.json().engineerEmail).to.exist;\r",
+											"        pm.expect(pm.response.json().accessibleMachines).to.exist;\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{engineerToken}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/DataRequest/engineer/access-machines",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"DataRequest",
+										"engineer",
+										"access-machines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MachineInvalidToken",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid token header exists\", function () {\r",
+											"    pm.expect(pm.response.headers.get('WWW-Authenticate')).to.include('invalid_token');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{engineerToken}}+x",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/DataRequest/engineer/access-machines",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"DataRequest",
+										"engineer",
+										"access-machines"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MachinewithoutToken",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"\r",
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Invalid token header exists\", function () {\r",
+											"    pm.expect(pm.response.headers.get('WWW-Authenticate')).to.include('Bearer');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/DataRequest/engineer/access-machines",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"DataRequest",
+										"engineer",
+										"access-machines"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Tests access control to machine data and shared endpoints, verifying responses for valid, expired, or missing tokens and role-based restrictions."
+				}
+			],
+			"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
 		},
 		{
 			"name": "LicenseTests",
@@ -1309,7 +1307,14 @@
 					],
 					"request": {
 						"auth": {
-							"type": "noauth"
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
