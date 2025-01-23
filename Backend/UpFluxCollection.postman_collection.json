@@ -1817,6 +1817,97 @@
 						}
 					],
 					"description": "Ensures the API enforces rate limiting and prevents multiple failed login attempts to protect against brute-force attacks."
+				},
+				{
+					"name": "RateLimitingTests",
+					"item": [
+						{
+							"name": "RetryAfterHeaderRateLimiting",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"// Set the current iteration and max attempts\r",
+											"const maxAttempts = 5;\r",
+											"const currentAttempt = parseInt(pm.environment.get(\"rateLimitAttempts\") || 0) + 1;\r",
+											"pm.environment.set(\"rateLimitAttempts\", currentAttempt);\r",
+											"\r",
+											"// Add a warning if max attempts are exceeded\r",
+											"if (currentAttempt > maxAttempts) {\r",
+											"    console.log(\"Rate limiting protection should now trigger.\");\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const maxAttempts = 5;\r",
+											"const attempts = parseInt(pm.environment.get(\"rateLimitAttempts\"));\r",
+											"\r",
+											"// Test for successful responses before rate limiting\r",
+											"if (attempts <= maxAttempts) {\r",
+											"    pm.test(\"Request is not yet rate-limited\", () => {\r",
+											"        pm.expect(pm.response.code).to.not.equal(429); // 429 = Too Many Requests\r",
+											"    });\r",
+											"} else {\r",
+											"    // Test for rate limiting response\r",
+											"    pm.test(\"Rate limiting triggered\", () => {\r",
+											"        pm.expect(pm.response.code).to.equal(429);\r",
+											"    });\r",
+											"\r",
+											"    // Test for Retry-After header presence\r",
+											"    pm.test(\"Retry-After header exists\", () => {\r",
+											"        pm.expect(pm.response.headers.has(\"Retry-After\")).to.be.true;\r",
+											"    });\r",
+											"\r",
+											"    // Test for Retry-After header value\r",
+											"    const retryAfter = pm.response.headers.get(\"Retry-After\");\r",
+											"    pm.test(\"Retry-After header is valid\", () => {\r",
+											"        pm.expect(parseInt(retryAfter)).to.be.a(\"number\").and.to.be.greaterThan(0);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"wrong-password\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Validates API rate limiting mechanisms to ensure proper handling of excessive requests and protection against abuse."
 				}
 			],
 			"description": "Validate API endpoints for vulnerabilities, ensuring protection against threats like brute-force attacks, unauthorized access, and rate-limiting bypasses."
