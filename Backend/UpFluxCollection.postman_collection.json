@@ -118,6 +118,105 @@
 							"description": "Verify the login process for admin users, including valid and invalid credentials."
 						},
 						{
+							"name": "AdminTest",
+							"item": [
+								{
+									"name": "AdminListTest",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/Admin/list",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"list"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "AdminGetAllMachines",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													"\r",
+													"pm.test(\"Should receive accessibleMachines from the body\", function () {\r",
+													"    pm.expect(pm.response.json()).to.have.property('accessibleMachines');\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/Auth/admin/get-all-machines",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"Auth",
+												"admin",
+												"get-all-machines"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"description": "Get and validate a list of all admins in UpFlux"
+						},
+						{
 							"name": "AdminPasswordChange",
 							"item": [
 								{
@@ -266,7 +365,7 @@
 													"// Test weak password response\r",
 													"pm.test(\"Weak password response\", function () {\r",
 													"    //pm.expect(pm.response.code).to.equal(400);\r",
-													"     pm.expect(pm.response.code).to.equal(200);\r",
+													"     pm.expect(pm.response.code).to.equal(401);\r",
 													"    //pm.expect(pm.response.json().message).to.equal(\"Password is too weak\");\r",
 													"});\r",
 													""
@@ -1040,6 +1139,107 @@
 						}
 					],
 					"description": "Tests access control to machine data and shared endpoints, verifying responses for valid, expired, or missing tokens and role-based restrictions."
+				},
+				{
+					"name": "AplicationTests",
+					"item": [
+						{
+							"name": "ApplicationTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 200\", function () {\r",
+											"  pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response has the required fields\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"\r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.applications).to.exist.and.to.be.an('array');\r",
+											"    responseData.applications.forEach(function(application) {\r",
+											"        pm.expect(application).to.have.property('appId');\r",
+											"        pm.expect(application).to.have.property('machineId');\r",
+											"        pm.expect(application).to.have.property('appName');\r",
+											"        pm.expect(application).to.have.property('addedBy');\r",
+											"        pm.expect(application).to.have.property('currentVersion');\r",
+											"        pm.expect(application).to.have.property('versions').and.to.be.an('array');\r",
+											"        application.versions.forEach(function(version) {\r",
+											"            pm.expect(version).to.have.property('versionId');\r",
+											"            pm.expect(version).to.have.property('appId');\r",
+											"            pm.expect(version).to.have.property('versionName');\r",
+											"            pm.expect(version).to.have.property('updatedBy');\r",
+											"            pm.expect(version).to.have.property('date');\r",
+											"        });\r",
+											"    });\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Versions array is present and contains expected number of elements\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"  \r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.applications).to.be.an('array');\r",
+											"  pm.expect(responseData.applications[0].versions).to.be.an('array');\r",
+											"  pm.expect(responseData.applications[0].versions).to.have.lengthOf.at.least(1, \"Versions array should contain at least one element\");\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Versions array properties are non-empty strings\", function () {\r",
+											"    const responseData = pm.response.json();\r",
+											"    \r",
+											"    pm.expect(responseData).to.be.an('object');\r",
+											"    pm.expect(responseData.applications).to.be.an('array');\r",
+											"    \r",
+											"    responseData.applications.forEach(application => {\r",
+											"        pm.expect(application.versions).to.be.an('array');\r",
+											"        \r",
+											"        application.versions.forEach(version => {\r",
+											"            pm.expect(version.versionName).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Version name should not be empty\");\r",
+											"            pm.expect(version.updatedBy).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Updated by should not be empty\");\r",
+											"            pm.expect(version.date).to.be.a('string').and.to.have.lengthOf.at.least(1, \"Date should not be empty\");\r",
+											"        });\r",
+											"    });\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url }}/api/DataRequest/applications",
+									"host": [
+										"{{url }}"
+									],
+									"path": [
+										"api",
+										"DataRequest",
+										"applications"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Display the data requested for the applications available in UpFlux."
 				}
 			],
 			"description": "Validates role-based access control and token authentication to ensure secure access to machine data and shared endpoints while rejecting unauthorized or invalid requests."
@@ -1333,6 +1533,214 @@
 				}
 			],
 			"description": "Verifies the functionality of the `/UpFlux/about` endpoint, ensuring it correctly returns a plain text response with a status code of 200."
+		},
+		{
+			"name": "NotificationTests",
+			"item": [
+				{
+					"name": "CreateGroupTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body has required headers\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is in JSON format\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"pm.test(\"Message contains created successfully\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.include(\"created successfully\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"groupId\": \"{{engineerToken}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url }}/api/Notification/create-group",
+							"host": [
+								"{{url }}"
+							],
+							"path": [
+								"api",
+								"Notification",
+								"create-group"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "AddUriTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body has required headers\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is in JSON format\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"pm.test(\"Message contains added to group\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.include(\"added to group\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"groupId\": \"{{engineerToken}}\",\r\n  \"uri\": \"{{uri}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url }}/api/Notification/add-uri",
+							"host": [
+								"{{url }}"
+							],
+							"path": [
+								"api",
+								"Notification",
+								"add-uri"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RemoveUriTest",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body has required headers\", function () {\r",
+									"    pm.response.to.have.header(\"Content-Type\");\r",
+									"    pm.response.to.have.header(\"Date\");\r",
+									"    pm.response.to.have.header(\"Server\");\r",
+									"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response body is in JSON format\", function () {\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Message contains URI removed from group\", function () {\r",
+									"    pm.expect(pm.response.json().message).to.include(\"removed from group\");\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"groupId\": \"{{engineerToken}}\",\r\n  \"uri\": \"{{uri}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url }}/api/Notification/remove-uri",
+							"host": [
+								"{{url }}"
+							],
+							"path": [
+								"api",
+								"Notification",
+								"remove-uri"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Verify the functionalities of create group, add uri and remove uri in notification endpoints."
 		}
 	],
 	"event": [
