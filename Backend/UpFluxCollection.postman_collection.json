@@ -1741,6 +1741,85 @@
 				}
 			],
 			"description": "Verify the functionalities of create group, add uri and remove uri in notification endpoints."
+		},
+		{
+			"name": "SecurityTests",
+			"item": [
+				{
+					"name": "BruteForceProtectionTests",
+					"item": [
+						{
+							"name": "BruteForceProtectionTest",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"const attempts = pm.environment.get(\"login_attempts\") || 0;\r",
+											"pm.environment.set(\"login_attempts\", parseInt(attempts) + 1);\r",
+											"pm.environment.set(\"BruteForcePassword\", `wrong-password-${attempts}`);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"const maxAttempts = 5; \r",
+											"const attempts = pm.environment.get(\"login_attempts\");\r",
+											"\r",
+											"if (attempts <= maxAttempts) {\r",
+											"    pm.test(\"No brute-force protection triggered yet\", () => {\r",
+											"        pm.expect(pm.response.code).to.be.oneOf([401, 403]);\r",
+											"    });\r",
+											"} else {\r",
+											"    pm.test(\"Brute-force protection triggered\", () => {\r",
+											"        pm.expect(pm.response.code).to.be.oneOf([429, 403]);\r",
+											"        pm.expect(pm.response.text()).to.include(\"Too many login attempts\");\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"{{BruteForcePassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Ensures the API enforces rate limiting and prevents multiple failed login attempts to protect against brute-force attacks."
+				}
+			],
+			"description": "Validate API endpoints for vulnerabilities, ensuring protection against threats like brute-force attacks, unauthorized access, and rate-limiting bypasses."
 		}
 	],
 	"event": [
