@@ -73,12 +73,12 @@
 											"listen": "test",
 											"script": {
 												"exec": [
-													"pm.test(\"Status code is 400\", function () {\r",
-													"    pm.response.to.have.status((400));\r",
+													"pm.test(\"Status code is 401\", function () {\r",
+													"    pm.response.to.have.status((401));\r",
 													"});\r",
 													"\r",
-													"pm.test(\"Response error message is 'Email and Password are required.'\", function () {\r",
-													"    pm.expect(pm.response.json().error).to.equal(\"Email and Password are required.\");\r",
+													"pm.test(\"Response error message is 'Invalid credentials'\", function () {\r",
+													"    pm.expect(pm.response.json().error).to.equal(\"Invalid credentials\");\r",
 													"});\r",
 													""
 												],
@@ -92,7 +92,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"\"\r\n}",
+											"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"kljlj\"\r\n}",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -365,7 +365,7 @@
 													"// Test weak password response\r",
 													"pm.test(\"Weak password response\", function () {\r",
 													"    //pm.expect(pm.response.code).to.equal(400);\r",
-													"     pm.expect(pm.response.code).to.equal(401);\r",
+													"     pm.expect(pm.response.code).to.equal(400);\r",
 													"    //pm.expect(pm.response.json().message).to.equal(\"Password is too weak\");\r",
 													"});\r",
 													""
@@ -390,7 +390,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "{\r\n  \"oldPassword\": \"{{AdminPassword}}\",\r\n  \"newPassword\": \"12345\",\r\n  \"confirmPassword\": \"12345\"\r\n}",
+											"raw": "{\r\n  \"oldPassword\": \"{{AdminPassword}}\",\r\n  \"newPassword\": \"12345\",\r\n  \"confirmPassword\": \"12345\"\r\n}\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -765,7 +765,7 @@
 										"header": [],
 										"body": {
 											"mode": "raw",
-											"raw": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJFZHVhcmRvQGFkbWluLnVwZmx1eC5jb20iLCJNYWNoaW5lSWRzIjoiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3Mzc1NzY0MTIsImlzcyI6IlVwRmx1eCIsImF1ZCI6IlVwRmx1eEFQSSJ9.5fSffVmw3IImP6FkyLj-T9Fq0h8AeusJ2CrLEtFgiIM\"",
+											"raw": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJFZHVhcmRvQGFkbWluLnVwZmx1eC5jb20iLCJNYWNoaW5lSWRzIjoiIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiQWRtaW4iLCJleHAiOjE3Mzc1NzY0MTIsImlzcyI6IlVwRmx1eCIsImF1ZCI6IlVwRmx1eEFQSSJ9.5fSffVmw3IImP6FkyLj-T9Fq0h8AeusJ2CrLEtFgiIM\"\r\n",
 											"options": {
 												"raw": {
 													"language": "json"
@@ -1853,7 +1853,7 @@
 											"// Test for successful responses before rate limiting\r",
 											"if (attempts <= maxAttempts) {\r",
 											"    pm.test(\"Request is not yet rate-limited\", () => {\r",
-											"        pm.expect(pm.response.code).to.not.equal(429); // 429 = Too Many Requests\r",
+											"        pm.expect(pm.response.code).to.not.equal(429); \r",
 											"    });\r",
 											"} else {\r",
 											"    // Test for rate limiting response\r",
@@ -1901,6 +1901,75 @@
 										"Auth",
 										"admin",
 										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "RateLimitingTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"// Set the expected rate limit response code\r",
+											"const rateLimitCode = 429;\r",
+											"const currentAttempt = pm.environment.get(\"authenticated_rate_limit_attempt\") || 1;\r",
+											"pm.environment.set(\"authenticated_rate_limit_attempt\", parseInt(currentAttempt) + 1);\r",
+											"\r",
+											"// Verify response based on attempt count\r",
+											"if (currentAttempt <= 10) {\r",
+											"    // For requests within the allowed limit\r",
+											"    pm.test(\"Request is within rate limit\", () => {\r",
+											"        pm.expect(pm.response.code).to.not.equal(rateLimitCode); \r",
+											"    });\r",
+											"} else {\r",
+											"    // For requests exceeding the rate limit\r",
+											"    pm.test(\"Rate limiting triggered\", () => {\r",
+											"        pm.expect(pm.response.code).to.equal(rateLimitCode);\r",
+											"    });\r",
+											"\r",
+											"    // Verify Retry-After header\r",
+											"    pm.test(\"Retry-After header exists\", () => {\r",
+											"        pm.expect(pm.response.headers.has(\"Retry-After\")).to.be.true;\r",
+											"    });\r",
+											"\r",
+											"    // Validate Retry-After header value\r",
+											"    const retryAfter = pm.response.headers.get(\"Retry-After\");\r",
+											"    pm.test(\"Retry-After header is valid\", () => {\r",
+											"        pm.expect(parseInt(retryAfter)).to.be.a(\"number\").and.to.be.greaterThan(0);\r",
+											"    });\r",
+											"}\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{url}}/api/Admin/list",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Admin",
+										"list"
 									]
 								}
 							},
