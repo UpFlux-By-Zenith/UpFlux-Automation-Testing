@@ -1977,6 +1977,66 @@
 						}
 					],
 					"description": "Validates API rate limiting mechanisms to ensure proper handling of excessive requests and protection against abuse."
+				},
+				{
+					"name": "SSL/TLS_Tests",
+					"item": [
+						{
+							"name": "SSL/TLSTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Request is sent over HTTPS\", () => {\r",
+											"    pm.expect(pm.request.url.protocol).to.eql(\"https\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response status is 200 OK\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"packages": {},
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Validates HTTPS enforcement, secure data transmission, and API security headers to ensure safe communication."
 				}
 			],
 			"description": "Validate API endpoints for vulnerabilities, ensuring protection against threats like brute-force attacks, unauthorized access, and rate-limiting bypasses."
