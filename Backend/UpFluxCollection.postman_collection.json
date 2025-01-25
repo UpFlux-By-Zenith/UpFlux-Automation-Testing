@@ -2075,6 +2075,8 @@
 											"pm.test(\"Server is Kestrel\", function () {\r",
 											"    pm.expect(pm.response.headers.get(\"Server\")).to.eql(\"Kestrel\");\r",
 											"});\r",
+											"\r",
+											"\r",
 											""
 										],
 										"type": "text/javascript",
@@ -2115,7 +2117,8 @@
 										"engineer",
 										"login"
 									]
-								}
+								},
+								"description": "### Login Engineer\n\nThis endpoint is used to authenticate an engineer through the provided engineer token.\n\n#### Request Body\n\n- `engineerToken` (string, required): The token of the engineer for authentication.\n    \n\n#### Response\n\n- `token` (string): The authentication token for the engineer.\n    \n\n#### Headers\n\n- `Content-Type`: application/json\n    \n\n#### Specific Instructions\n\nMake sure to include the `engineerToken` in the request body to authenticate the engineer."
 							},
 							"response": []
 						},
@@ -2140,8 +2143,7 @@
 											"    pm.expect(pm.response.headers.has(\"X-Content-Type-Options\")).to.be.true;\r",
 											"    pm.expect(pm.response.headers.has(\"X-Frame-Options\")).to.be.true;\r",
 											"    pm.expect(pm.response.headers.has(\"Content-Security-Policy\")).to.be.true;\r",
-											"});\r",
-											""
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2177,6 +2179,73 @@
 						}
 					],
 					"description": "Validates HTTPS enforcement, secure data transmission, and API security headers to ensure safe communication."
+				},
+				{
+					"name": "InvalidInputHandlingTest",
+					"item": [
+						{
+							"name": "MissingFieldsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {\r",
+											"  pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required field - error\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"  \r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.error).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Presence of specific header in the response is validated\", function () {\r",
+											"    pm.expect(pm.response.headers.has(\"Content-Type\")).to.be.true;\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### POST /api/Auth/admin/login\n\nThis endpoint is used to authenticate an admin user by providing their email and password.\n\n#### Request Body\n\n- email (string, required): The email address of the admin user.\n    \n- password (string, required): The password of the admin user.\n    \n\n#### Response\n\nThe response is in JSON format with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response will include an \"error\" property with a string value, indicating the error message if the authentication fails."
+							},
+							"response": []
+						}
+					],
+					"description": "This test ensures the API correctly handles malformed or invalid input by preventing the backend from crashing or leaking sensitive information."
 				}
 			],
 			"description": "Validate API endpoints for vulnerabilities, ensuring protection against threats like brute-force attacks, unauthorized access, and rate-limiting bypasses."
