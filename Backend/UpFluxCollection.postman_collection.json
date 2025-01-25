@@ -1977,6 +1977,206 @@
 						}
 					],
 					"description": "Validates API rate limiting mechanisms to ensure proper handling of excessive requests and protection against abuse."
+				},
+				{
+					"name": "SSL/TLS_Tests",
+					"item": [
+						{
+							"name": "SSL/TLSTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Request is sent over HTTPS\", () => {\r",
+											"    pm.expect(pm.request.url.protocol).to.eql(\"https\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response status is 200 OK\", () => {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains a token\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"token\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SecureDataTransitionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Authenticated request is successful\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Request is sent over HTTPS\", function () {\r",
+											"    pm.expect(pm.request.url.protocol).to.eql(\"https\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has Content-Type header\", function () {\r",
+											"    pm.expect(pm.response.headers.has(\"Content-Type\")).to.be.true;\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains required fields\", function () {\r",
+											"    var jsonData = pm.response.json();\r",
+											"    pm.expect(jsonData).to.have.property(\"token\"); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is acceptable\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(1000); \r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server is Kestrel\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Server\")).to.eql(\"Kestrel\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"engineerToken\": \"{{engineerToken}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/engineer/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"engineer",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "SecurityHeaderTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Extract token from the response body\", function () {\r",
+											"    pm.expect(pm.environment.get(\"token\")).to.exist;\r",
+											"});\r",
+											"\r",
+											"\r",
+											"pm.test(\"Response contains security headers\", () => {\r",
+											"    pm.expect(pm.response.headers.has(\"Strict-Transport-Security\")).to.be.true;\r",
+											"    pm.expect(pm.response.headers.has(\"X-Content-Type-Options\")).to.be.true;\r",
+											"    pm.expect(pm.response.headers.has(\"X-Frame-Options\")).to.be.true;\r",
+											"    pm.expect(pm.response.headers.has(\"Content-Security-Policy\")).to.be.true;\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "Validates HTTPS enforcement, secure data transmission, and API security headers to ensure safe communication."
 				}
 			],
 			"description": "Validate API endpoints for vulnerabilities, ensuring protection against threats like brute-force attacks, unauthorized access, and rate-limiting bypasses."
