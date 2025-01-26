@@ -2396,7 +2396,8 @@
 										"admin",
 										"login"
 									]
-								}
+								},
+								"description": "### Admin Login\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- `email` (string, required): The email of the administrator.\n    \n- `password` (string, required): The password of the administrator.\n    \n- `role` (string, required): The role of the user, which should be set as \"admin\".\n    \n\n#### Response Body\n\nThe response will include the authentication token and user information upon successful login."
 							},
 							"response": []
 						},
@@ -2439,6 +2440,69 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{ \r\n    \"email\": 12345, \r\n    \"password\": true \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### Login as Admin\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- `email` (string) - The email address of the admin.\n    \n- `password` (boolean) - The password for the admin account.\n    \n\n#### Response\n\n- Status: 400\n    \n- Content-Type: application/problem+json\n    \n\nThe response will contain an error object with details about the validation errors, if any.\n\nExample response body:\n\n``` json\n{\n    \"type\": \"\",\n    \"title\": \"\",\n    \"status\": 0,\n    \"errors\": {\n        \"request\": [\"\"],\n        \"$.email\": [\"\"]\n    },\n    \"traceId\": \"\"\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "LargePayloadTest",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let largePayload = \"A\".repeat(1024 * 1024); \r",
+											"\r",
+											"pm.environment.set(\"LargePayload\", largePayload);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Large payload should result in 413 status\", function () {\r",
+											"    pm.response.to.have.status(413);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a Content-Type header\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"{{AdminPassword}}\",\r\n  \"extraField\": \"{{LargePayload}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
