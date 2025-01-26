@@ -2296,6 +2296,62 @@
 								"description": "### Login Admin\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- `email` (string): The email address of the administrator.\n    \n- `password` (string): The password of the administrator.\n    \n\n#### Response\n\n- Status: 401\n    \n- Content-Type: application/json\n    \n- { \"error\": \"\"}"
 							},
 							"response": []
+						},
+						{
+							"name": "ShortPasswordTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status((401));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response error message is 'Invalid credentials'\", function () {\r",
+											"    pm.expect(pm.response.json().error).to.equal(\"Invalid credentials\");\r",
+											"});\r",
+											"pm.test(\"Response body contains error message\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"error\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response content type is JSON\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "The endpoint `/api/Auth/admin/login` is a POST request used for admin login authentication.\n\n### Request Body\n\n- The request body should be in raw JSON format and include the following parameters:\n    \n    - `email` (string): The email of the admin user.\n        \n    - `password` (string): The password of the admin user.\n        \n\nExample:\n\n``` json\n{\n  \"email\": \"{{AdminEmail}}\",\n  \"password\": \"12345\"\n}\n\n ```\n\n### Response\n\nThe response for this request is in the form of a JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response status code for the last execution was 401, indicating unauthorized access."
+							},
+							"response": []
 						}
 					],
 					"description": "This test ensures the API correctly handles malformed or invalid input by preventing the backend from crashing or leaking sensitive information."
