@@ -2075,6 +2075,8 @@
 											"pm.test(\"Server is Kestrel\", function () {\r",
 											"    pm.expect(pm.response.headers.get(\"Server\")).to.eql(\"Kestrel\");\r",
 											"});\r",
+											"\r",
+											"\r",
 											""
 										],
 										"type": "text/javascript",
@@ -2115,7 +2117,8 @@
 										"engineer",
 										"login"
 									]
-								}
+								},
+								"description": "### Login Engineer\n\nThis endpoint is used to authenticate an engineer through the provided engineer token.\n\n#### Request Body\n\n- `engineerToken` (string, required): The token of the engineer for authentication.\n    \n\n#### Response\n\n- `token` (string): The authentication token for the engineer.\n    \n\n#### Headers\n\n- `Content-Type`: application/json\n    \n\n#### Specific Instructions\n\nMake sure to include the `engineerToken` in the request body to authenticate the engineer."
 							},
 							"response": []
 						},
@@ -2140,8 +2143,7 @@
 											"    pm.expect(pm.response.headers.has(\"X-Content-Type-Options\")).to.be.true;\r",
 											"    pm.expect(pm.response.headers.has(\"X-Frame-Options\")).to.be.true;\r",
 											"    pm.expect(pm.response.headers.has(\"Content-Security-Policy\")).to.be.true;\r",
-											"});\r",
-											""
+											"});"
 										],
 										"type": "text/javascript",
 										"packages": {}
@@ -2177,6 +2179,353 @@
 						}
 					],
 					"description": "Validates HTTPS enforcement, secure data transmission, and API security headers to ensure safe communication."
+				},
+				{
+					"name": "InvalidInputHandlingTest",
+					"item": [
+						{
+							"name": "MissingFieldsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {\r",
+											"  pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response has the required field - error\", function () {\r",
+											"  const responseData = pm.response.json();\r",
+											"  \r",
+											"  pm.expect(responseData).to.be.an('object');\r",
+											"  pm.expect(responseData.error).to.exist;\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"  pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Presence of specific header in the response is validated\", function () {\r",
+											"    pm.expect(pm.response.headers.has(\"Content-Type\")).to.be.true;\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"\",\r\n    \"password\": \"\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### POST /api/Auth/admin/login\n\nThis endpoint is used to authenticate an admin user by providing their email and password.\n\n#### Request Body\n\n- email (string, required): The email address of the admin user.\n    \n- password (string, required): The password of the admin user.\n    \n\n#### Response\n\nThe response is in JSON format with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response will include an \"error\" property with a string value, indicating the error message if the authentication fails."
+							},
+							"response": []
+						},
+						{
+							"name": "MalFormedEmailTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body has error message for invalid email\", function () {\r",
+											"    pm.expect(pm.response.json().error).to.equal(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"admin@UpFluxxxxxx.com\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### Login Admin\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- `email` (string): The email address of the administrator.\n    \n- `password` (string): The password of the administrator.\n    \n\n#### Response\n\n- Status: 401\n    \n- Content-Type: application/json\n    \n- { \"error\": \"\"}"
+							},
+							"response": []
+						},
+						{
+							"name": "ShortPasswordTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status((401));\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response error message is 'Invalid credentials'\", function () {\r",
+											"    pm.expect(pm.response.json().error).to.equal(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"error\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response content type is JSON\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\", \"application/json; charset=utf-8\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"12345\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "The endpoint `/api/Auth/admin/login` is a POST request used for admin login authentication.\n\n### Request Body\n\n- The request body should be in raw JSON format and include the following parameters:\n    \n    - `email` (string): The email of the admin user.\n        \n    - `password` (string): The password of the admin user.\n        \n\nExample:\n\n``` json\n{\n  \"email\": \"{{AdminEmail}}\",\n  \"password\": \"12345\"\n}\n\n ```\n\n### Response\n\nThe response for this request is in the form of a JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response status code for the last execution was 401, indicating unauthorized access."
+							},
+							"response": []
+						},
+						{
+							"name": "ExtraUnexpectedFieldsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"pm.test(\"Response body contains error message\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"error\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"{{AdminEmail}}\", \r\n    \"password\": \"{{AdminPassword}}\",\r\n    \"role\": \"admin\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### Admin Login\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- `email` (string, required): The email of the administrator.\n    \n- `password` (string, required): The password of the administrator.\n    \n- `role` (string, required): The role of the user, which should be set as \"admin\".\n    \n\n#### Response Body\n\nThe response will include the authentication token and user information upon successful login."
+							},
+							"response": []
+						},
+						{
+							"name": "InvalidDataTypeTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response status code is 400\", function () {\r",
+											"    pm.response.to.have.status(400);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains type, title, status, errors, and traceId\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"type\");\r",
+											"    pm.response.to.have.jsonBody(\"title\");\r",
+											"    pm.response.to.have.jsonBody(\"status\");\r",
+											"    pm.response.to.have.jsonBody(\"errors\");\r",
+											"    pm.response.to.have.jsonBody(\"traceId\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Errors field contains request\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"errors.request\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present in the response\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": 12345, \r\n    \"password\": true \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### Login as Admin\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- `email` (string) - The email address of the admin.\n    \n- `password` (boolean) - The password for the admin account.\n    \n\n#### Response\n\n- Status: 400\n    \n- Content-Type: application/problem+json\n    \n\nThe response will contain an error object with details about the validation errors, if any.\n\nExample response body:\n\n``` json\n{\n    \"type\": \"\",\n    \"title\": \"\",\n    \"status\": 0,\n    \"errors\": {\n        \"request\": [\"\"],\n        \"$.email\": [\"\"]\n    },\n    \"traceId\": \"\"\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "LargePayloadTest",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"exec": [
+											"let largePayload = \"A\".repeat(1024 * 1024); \r",
+											"\r",
+											"pm.environment.set(\"LargePayload\", largePayload);\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								},
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Large payload should result in 413 status\", function () {\r",
+											"    pm.response.to.have.status(413);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response should have a Content-Type header\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"{{AdminEmail}}\",\r\n  \"password\": \"{{AdminPassword}}\",\r\n  \"extraField\": \"{{LargePayload}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"description": "This test ensures the API correctly handles malformed or invalid input by preventing the backend from crashing or leaking sensitive information."
 				}
 			],
 			"description": "Validate API endpoints for vulnerabilities, ensuring protection against threats like brute-force attacks, unauthorized access, and rate-limiting bypasses."
