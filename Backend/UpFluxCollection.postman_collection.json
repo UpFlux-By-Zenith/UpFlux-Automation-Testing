@@ -2352,6 +2352,52 @@
 								"description": "The endpoint `/api/Auth/admin/login` is a POST request used for admin login authentication.\n\n### Request Body\n\n- The request body should be in raw JSON format and include the following parameters:\n    \n    - `email` (string): The email of the admin user.\n        \n    - `password` (string): The password of the admin user.\n        \n\nExample:\n\n``` json\n{\n  \"email\": \"{{AdminEmail}}\",\n  \"password\": \"12345\"\n}\n\n ```\n\n### Response\n\nThe response for this request is in the form of a JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response status code for the last execution was 401, indicating unauthorized access."
 							},
 							"response": []
+						},
+						{
+							"name": "ExtraUnexpectedFieldsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"pm.test(\"Response body contains error message\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"error\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"{{AdminEmail}}\", \r\n    \"password\": \"{{AdminPassword}}\",\r\n    \"role\": \"admin\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "This test ensures the API correctly handles malformed or invalid input by preventing the backend from crashing or leaking sensitive information."
