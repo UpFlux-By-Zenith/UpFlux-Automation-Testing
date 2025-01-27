@@ -3239,6 +3239,122 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "ErrorBasedInjectionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid input\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response does not expose SQL errors\", function () {\r",
+											"    pm.expect(pm.response.text()).to.not.include(\"CONVERT\");\r",
+											"    pm.expect(pm.response.text()).to.not.include(\"syntax error\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present and JSON\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"' AND 1=CONVERT(int, 'test'); --\",\r\n  \"password\": \"irrelevantPassword\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "The `POST /api/Auth/admin/login` endpoint is used to authenticate an admin user.\n\n### Request\n\nThe request should include the following parameters in the request body:\n\n- `email` (string): The email of the admin user.\n    \n- `password` (string): The password of the admin user.\n    \n\n### Response\n\nThe response will be a JSON object with the following schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\nThe response will have a status code of 401 if the authentication fails."
+							},
+							"response": []
+						},
+						{
+							"name": "BlindBooleanInjectionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid input\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response does not expose existence conditions\", function () {\r",
+											"    pm.expect(pm.response.text()).to.not.include(\"EXISTS\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present and JSON\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"' OR EXISTS(SELECT 1 FROM Users WHERE username='admin'); --\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "Contains advanced test cases for SQL injection vulnerabilities, including data extraction, and complex query manipulation to ensure robust backend security against high-risk attack scenarios."
