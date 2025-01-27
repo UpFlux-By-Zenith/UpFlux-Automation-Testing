@@ -2571,7 +2571,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{ \r\n    \"email\": \"' OR '1'='1\", \r\n    \"password\": \"irrelevantPassword\" \r\n}",
+									"raw": "{ \r\n    \"email\": \"' OR '1'='1\", \r\n    \"password\": \"{{AdminPassword}}\" \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2642,7 +2642,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{ \r\n    \"email\": \"'; DROP TABLE users; --\",\r\n    \"password\": \"IncorrectPassword\"\r\n}",
+									"raw": "{ \r\n    \"email\": \"'; DROP TABLE users; --\",\r\n    \"password\": \"{{AdminPassword}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2707,7 +2707,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{ \r\n    \"email\": \"' UNION SELECT null, null --\",\r\n    \"password\": \"irrelevantPassword\" \r\n}",
+									"raw": "{ \r\n    \"email\": \"' UNION SELECT null, null --\",\r\n    \"password\": \"{{AdminPassword}}\" \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -2772,7 +2772,72 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n     \"email\": \"'; WAITFOR DELAY '00:00:05'; --\", \r\n     \"password\": \"irrelevantPassword\"\r\n}",
+									"raw": "{\r\n     \"email\": \"'; WAITFOR DELAY '00:00:05'; --\", \r\n     \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "# Admin Login\n\nThis endpoint allows administrators to log in.\n\n## Request Body\n\n- `email` (string): The email address of the administrator.\n    \n- `password` (string): The password for the administrator account.\n    \n\n## Response\n\nThe response is in JSON format with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"error\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```\n\nThe response will include an `error` field, which will contain a string value providing details about any error that occurred during the login process."
+							},
+							"response": []
+						},
+						{
+							"name": "SpecialCharactersTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"'\\\";--\",\r\n    \"password\": \"{{AdminPassword}}\" \r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
