@@ -3129,7 +3129,7 @@
 									"listen": "test",
 									"script": {
 										"exec": [
-											"pm.test(\"Status code is 400\", function () {\r",
+											"pm.test(\"Status code is 401\", function () {\r",
 											"    pm.response.to.have.status(401);\r",
 											"});\r",
 											"\r",
@@ -3158,6 +3158,67 @@
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n  \"email\": \"' UNION SELECT null, @@VERSION --\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "ExtractingTableNamesTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid input\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response does not expose table names\", function () {\r",
+											"    pm.expect(pm.response.text()).to.not.include(\"information_schema.tables\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present and JSON\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is not exposing sensitive information\", function () {\r",
+											"    pm.expect(pm.response.headers.get(\"Server\")).to.not.include(\"SQL\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"' UNION SELECT table_name, null FROM information_schema.tables; --\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
