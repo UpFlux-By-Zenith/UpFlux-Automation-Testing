@@ -2526,6 +2526,536 @@
 						}
 					],
 					"description": "This test ensures the API correctly handles malformed or invalid input by preventing the backend from crashing or leaking sensitive information."
+				},
+				{
+					"name": "SQLInjectionTests",
+					"item": [
+						{
+							"name": "AuthenticationBypassTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body has 'error' field\", function () {\r",
+											"    pm.response.to.have.jsonBody('error');\r",
+											"    pm.expect(pm.response.json().error).to.exist;\r",
+											"    pm.expect(pm.response.json().error).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response headers contain 'Content-Type'\", function () {\r",
+											"    pm.response.to.have.header('Content-Type');\r",
+											"});\r",
+											"pm.test(\"Response headers contain 'Date'\", function () {\r",
+											"    pm.response.to.have.header('Date');\r",
+											"});\r",
+											"pm.test(\"Response headers contain 'Server'\", function () {\r",
+											"    pm.response.to.have.header('Server');\r",
+											"});\r",
+											"pm.test(\"Response headers contain 'Transfer-Encoding'\", function () {\r",
+											"    pm.response.to.have.header('Transfer-Encoding');\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"' OR '1'='1\", \r\n    \"password\": \"{{AdminPassword}}\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### POST /api/Auth/admin/login\n\nThis endpoint is used to authenticate an admin user.\n\n#### Request\n\n- Method: POST\n    \n- URL: {{url}}/api/Auth/admin/login\n    \n- Body:\n    \n    - email (text, required): The email of the admin user.\n        \n    - password (text, required): The password of the admin user.\n        \n\n#### Response\n\nThe response for this request can be represented as a JSON schema:\n\n``` json\n{\n  \"type\": \"object\",\n  \"properties\": {\n    \"error\": {\n      \"type\": \"string\"\n    }\n  }\n}\n\n ```\n\n- Status: 401\n    \n- Content-Type: application/json\n    \n- { \"error\": \"\"}"
+							},
+							"response": []
+						},
+						{
+							"name": "MaliciousQueryExecutionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Response code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.response.to.have.jsonBody(\"error\", \"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body has 'error' field\", function () {\r",
+											"    pm.response.to.have.jsonBody('error');\r",
+											"    pm.expect(pm.response.json().error).to.exist;\r",
+											"    pm.expect(pm.response.json().error).to.be.a('string');\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response headers contain Content-Type\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response headers contain Date\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response headers contain Server\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response headers contain Transfer-Encoding\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"'; DROP TABLE users; --\",\r\n    \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### Login Admin\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- email (text, required): The email address of the administrator.\n    \n- password (text, required): The password for the administrator's account.\n    \n\n#### Response\n\n- Status: 401\n    \n- Content-Type: application/json\n    \n- error (string): An error message indicating the reason for the failed login attempt."
+							},
+							"response": []
+						},
+						{
+							"name": "UnionBasedInjectionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"' UNION SELECT null, null --\",\r\n    \"password\": \"{{AdminPassword}}\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### API Request Description\n\nThis endpoint is used to authenticate an admin user by sending a POST request to the specified URL. The request should include the admin's email and password in the request body.\n\n#### Request Body Parameters\n\n- `email` (string): The email of the admin user.\n    \n- `password` (string): The password of the admin user.\n    \n\n### API Response\n\nThe response to this request will be in JSON format with a status code of 401. The response will include an `error` field, which may provide additional information about the authentication failure.\n\n#### Response JSON Schema\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"error\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "TimeBasedInjection",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n     \"email\": \"'; WAITFOR DELAY '00:00:05'; --\", \r\n     \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "# Admin Login\n\nThis endpoint allows administrators to log in.\n\n## Request Body\n\n- `email` (string): The email address of the administrator.\n    \n- `password` (string): The password for the administrator account.\n    \n\n## Response\n\nThe response is in JSON format with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"error\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```\n\nThe response will include an `error` field, which will contain a string value providing details about any error that occurred during the login process."
+							},
+							"response": []
+						},
+						{
+							"name": "SpecialCharactersTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"'\\\";--\",\r\n    \"password\": \"{{AdminPassword}}\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "WildCardInjectionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{ \r\n    \"email\": \"%' OR '1'='1\",\r\n    \"password\": \"{{AdminPassword}}\" \r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### API Request Description\n\nThis API endpoint is a POST request to {{url}}/api/Auth/admin/login. It is used to authenticate an admin user by providing their email and password in the request body.\n\n#### Request Body\n\n- `email` (string) - The email of the admin user.\n    \n- `password` (string) - The password of the admin user.\n    \n\n### API Response\n\nThe API responds with a status code of 401 and a JSON object with the following schema:\n\n``` json\n{\n    \"type\": \"object\",\n    \"properties\": {\n        \"error\": {\n            \"type\": \"string\"\n        }\n    }\n}\n\n ```\n\nThe response includes an `error` field which provides information about the error encountered during the authentication process."
+							},
+							"response": []
+						},
+						{
+							"name": "ScriptInjectionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n     \"email\": \"<script>alert('XSS')</script>\", \r\n     \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "### Admin Login\n\nThis endpoint allows administrators to log in.\n\n#### Request Body\n\n- `email` (string) - The email address of the administrator.\n    \n- `password` (string) - The password of the administrator.\n    \n\n#### Response\n\n- Status: 401\n    \n- Content-Type: application/json\n    \n- `error` (string) - Error message indicating the reason for the authentication failure."
+							},
+							"response": []
+						},
+						{
+							"name": "ExploitingDataBaseErrorsTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"' OR 1=CONVERT(int, 'test'); --\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									]
+								},
+								"description": "This endpoint allows administrators to log in by sending a POST request to {{url}}/api/Auth/admin/login. The request should include the administrator's email and password in the request body.\n\n### Request Body\n\n- email (string): The email of the administrator.\n    \n- password (string): The password of the administrator.\n    \n\n### Response\n\nUpon successful authentication, the server returns a status code of 200 along with a JSON response containing the authentication token and user details. In case of authentication failure, the server returns a status code of 401 with a JSON response containing an error message.\n\nExample Response:\n\n``` json\n{\n  \"error\": \"Authentication failed\"\n}\n\n ```"
+							},
+							"response": []
+						}
+					],
+					"description": "Identify vulnerabilities in the login endpoints by attempting to input SQL commands in text fields."
 				}
 			],
 			"description": "Validate API endpoints for vulnerabilities, ensuring protection against threats like brute-force attacks, unauthorized access, and rate-limiting bypasses."
