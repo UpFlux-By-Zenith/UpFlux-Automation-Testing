@@ -18,11 +18,15 @@ namespace UpFluxAutomation.Steps
             Console.WriteLine("Clicking Term And Conditions Button");
 
             var page = Repository.Get<IPage>();
-          
-            var termsLinkLocator = page.Locator("a.footer-link.mantine-Text-root.mantine-Anchor-root:has-text('Terms and Conditions')");
 
-            await termsLinkLocator.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
-            await termsLinkLocator.ClickAsync();
+            // Scroll to the bottom of the page
+            await page.EvaluateAsync("window.scrollTo(0, document.body.scrollHeight);");
+
+            // Wait for the link to be fully loaded and visible
+            var termsLinkLocator = page.Locator("a.footer-link.mantine-Text-root.mantine-Anchor-root:has-text('Terms and Conditions')");
+            await termsLinkLocator.ScrollIntoViewIfNeededAsync();
+            await termsLinkLocator.ClickAsync(new LocatorClickOptions { Force = true });
+            await page.WaitForTimeoutAsync(2000); 
 
             Console.WriteLine("Term And Conditions Button Has been Cliked");
         }
