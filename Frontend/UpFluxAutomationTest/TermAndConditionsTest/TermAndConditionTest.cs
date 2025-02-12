@@ -34,6 +34,7 @@ namespace UpFluxAutomation.TermAndConditionsTest
 
                 // Initialize the flow 
                 IStep flow = new NavigateToUpFlux(Repository);
+                flow.Chain(new ClickTermAndConditions(Repository));
 
                 // Execute the flow
                 await flow.Execute();
