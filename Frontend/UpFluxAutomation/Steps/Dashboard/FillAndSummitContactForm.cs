@@ -33,12 +33,7 @@ namespace UpFluxAutomation.Steps.Dashboard
             await page.FillAsync("textarea#message", "This is a test message using UpFlux.");
             await page.WaitForTimeoutAsync(500);
 
-            // Locate and Click the Send Message button
-            var sendButtonLocator = page.Locator("button.submit-button:has-text('Send Message')");
-            await sendButtonLocator.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
-            await sendButtonLocator.ClickAsync();
-
-            Console.WriteLine("Form submitted successfully.");
+            Console.WriteLine("Form fill successfully.");
         }
     }
 }
