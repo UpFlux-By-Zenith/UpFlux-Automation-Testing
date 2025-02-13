@@ -36,6 +36,7 @@ namespace UpFluxAutomation.DashboardTest
                 // Initialize the flow 
                 IStep flow = new NavigateToUpFlux(Repository);
                 flow.Chain(new FillAndSummitContactForm(Repository));
+                flow.Chain(new ClickSummitMessageButton(Repository));
 
                 // Execute the flow
                 await flow.Execute();
