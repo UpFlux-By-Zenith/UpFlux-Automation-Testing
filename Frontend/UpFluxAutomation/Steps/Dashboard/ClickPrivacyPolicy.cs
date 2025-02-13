@@ -5,22 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UpFluxAutomation.Abstractions;
-
-namespace UpFluxAutomation.Steps.Dashboard
-{
-    internal class ClickPrivacyPolicy
-    {
-    }
-}
-
-
-using Microsoft.Playwright;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UpFluxAutomation.Abstractions;
 using UpFluxAutomation.Models;
 
 namespace UpFluxAutomation.Steps
