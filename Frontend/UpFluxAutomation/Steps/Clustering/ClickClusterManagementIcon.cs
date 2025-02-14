@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UpFluxAutomation.Abstractions;
 
-namespace UpFluxAutomation.Steps.Clustering
+namespace UpFluxAutomation.Steps
 { 
     public class ClickClusterManagementIcon : BaseStep
     {
