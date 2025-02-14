@@ -8,9 +8,9 @@ using UpFluxAutomation.Abstractions;
 
 namespace UpFluxAutomationTest.Assertion
 {
-    public class ClustermanagementAssertion : BaseStep
+    public class ClusterManagementAssertion : BaseStep
     {
-        public ClustermanagementAssertion(IRepository repository, IStep next = null) : base(repository, next) { }
+        public ClusterManagementAssertion(IRepository repository, IStep next = null) : base(repository, next) { }
 
         protected override async Task PerformExecute()
         {

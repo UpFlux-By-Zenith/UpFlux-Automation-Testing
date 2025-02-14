@@ -38,6 +38,8 @@ namespace UpFluxAutomation.ClusteringTest
                 flow.Chain(new ClickSmartUpdateButton(Repository));
                 flow.Chain(new ClusteringAssertion(Repository));
                 flow.Chain(new ClickClusterManagementIcon(Repository));
+                flow.Chain(new ClusterManagementAssertion(Repository));
+                flow.Chain(new SelectClusterOptionFromDropdown(Repository));
 
                 // Execute the flow
                 await flow.Execute();
