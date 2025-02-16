@@ -5,6 +5,7 @@ using UpFluxAutomation.Steps;
 using System;
 using UpFluxAutomation.Abstractions;
 using UpFluxAutomationTest.Assertion;
+using UpFluxAutomation.Steps.UpdateManagemet;
 
 namespace UpFluxAutomation.ProfilteTest
 {
@@ -34,7 +35,10 @@ namespace UpFluxAutomation.ProfilteTest
                 flow.Chain(new FillEngineerDetails(Repository));
                 flow.Chain(new ClickLoginButton(Repository));
                 flow.Chain(new EngineerLoginAssertion(Repository));
+                flow.Chain(new ClickSmartUpdateButton(Repository));
+                flow.Chain(new ClusteringAssertion(Repository));
                 flow.Chain(new CLickLogout(Repository));
+                flow.Chain(new LogoutAssertion(Repository));
 
                 // Execute the flow
                 await flow.Execute();

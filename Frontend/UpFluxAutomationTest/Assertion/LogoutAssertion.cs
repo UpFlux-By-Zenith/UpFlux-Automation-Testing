@@ -18,7 +18,7 @@ namespace UpFluxAutomationTest.Assertion
 
             var page = Repository.Get<IPage>();
 
-            await page.WaitForLoadStateAsync();
+            await page.WaitForTimeoutAsync(500);
             var welcomeMessageLocator = page.Locator("h1.mantine-Text-root:has-text('Welcome to UpFlux!')");
             await welcomeMessageLocator.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
 
