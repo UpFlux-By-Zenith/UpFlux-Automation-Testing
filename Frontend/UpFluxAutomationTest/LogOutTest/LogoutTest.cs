@@ -34,8 +34,7 @@ namespace UpFluxAutomation.ProfilteTest
                 flow.Chain(new FillEngineerDetails(Repository));
                 flow.Chain(new ClickLoginButton(Repository));
                 flow.Chain(new EngineerLoginAssertion(Repository));
-                flow.Chain(new ClickProfileSection(Repository));
-                flow.Chain(new AccountSettingsAssertion(Repository));
+                flow.Chain(new CLickLogout(Repository));
 
                 // Execute the flow
                 await flow.Execute();
