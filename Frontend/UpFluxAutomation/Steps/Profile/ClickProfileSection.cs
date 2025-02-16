@@ -18,6 +18,7 @@ namespace UpFluxAutomation.Steps
             var profileButtonLocator = page.Locator("a[href='/account-settings']:has-text('Profile')");
             await profileButtonLocator.WaitForAsync(new LocatorWaitForOptions { State = WaitForSelectorState.Visible });
             await profileButtonLocator.ClickAsync();
+            await page.WaitForTimeoutAsync(1000);
 
             Console.WriteLine("Profile button clicked successfully.");
         }
