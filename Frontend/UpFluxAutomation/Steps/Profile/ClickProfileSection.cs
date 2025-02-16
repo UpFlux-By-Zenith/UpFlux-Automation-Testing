@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using UpFluxAutomation.Abstractions;
 using UpFluxAutomation.Models;
 
-namespace UpFluxAutomation.Steps.Profile
+namespace UpFluxAutomation.Steps
 {
     public class ClickProfileSection : BaseStep
     {
