@@ -1843,15 +1843,6 @@
 									"listen": "prerequest",
 									"script": {
 										"exec": [
-											"// Set the current iteration and max attempts\r",
-											"const maxAttempts = 5;\r",
-											"const currentAttempt = parseInt(pm.environment.get(\"rateLimitAttempts\") || 0) + 1;\r",
-											"pm.environment.set(\"rateLimitAttempts\", currentAttempt);\r",
-											"\r",
-											"// Add a warning if max attempts are exceeded\r",
-											"if (currentAttempt > maxAttempts) {\r",
-											"    console.log(\"Rate limiting protection should now trigger.\");\r",
-											"}\r",
 											""
 										],
 										"type": "text/javascript",
@@ -1931,7 +1922,7 @@
 											"// Set the expected rate limit response code\r",
 											"const rateLimitCode = 429;\r",
 											"const currentAttempt = pm.environment.get(\"authenticated_rate_limit_attempt\") || 1;\r",
-											"pm.environment.set(\"authenticated_rate_limit_attempt\", parseInt(currentAttempt) + 1);\r",
+											"pm.environment.set(\"authenticated_rate_limit_attempt\", parseInt(currentAttempt));\r",
 											"\r",
 											"// Verify response based on attempt count\r",
 											"if (currentAttempt <= 10) {\r",
