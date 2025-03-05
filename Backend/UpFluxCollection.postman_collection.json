@@ -212,6 +212,35 @@
 										}
 									},
 									"response": []
+								},
+								{
+									"name": "EngineerList",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{url}}/api/Admin/engineers",
+											"host": [
+												"{{url}}"
+											],
+											"path": [
+												"api",
+												"Admin",
+												"engineers"
+											]
+										}
+									},
+									"response": []
 								}
 							],
 							"description": "Get and validate a list of all admins in UpFlux"
@@ -1225,14 +1254,15 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{url }}/api/DataRequest/applications",
+									"raw": "{{url}}/api/DataRequest/engineer/machines-application",
 									"host": [
-										"{{url }}"
+										"{{url}}"
 									],
 									"path": [
 										"api",
 										"DataRequest",
-										"applications"
+										"engineer",
+										"machines-application"
 									]
 								}
 							},
@@ -1591,9 +1621,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url }}/api/Notification/create-group",
+							"raw": "{{url}}/api/Notification/create-group",
 							"host": [
-								"{{url }}"
+								"{{url}}"
 							],
 							"path": [
 								"api",
@@ -1658,9 +1688,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url }}/api/Notification/add-uri",
+							"raw": "{{url}}/api/Notification/add-uri",
 							"host": [
-								"{{url }}"
+								"{{url}}"
 							],
 							"path": [
 								"api",
@@ -1726,9 +1756,9 @@
 							}
 						},
 						"url": {
-							"raw": "{{url }}/api/Notification/remove-uri",
+							"raw": "{{url}}/api/Notification/remove-uri",
 							"host": [
-								"{{url }}"
+								"{{url}}"
 							],
 							"path": [
 								"api",
@@ -2383,7 +2413,7 @@
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{ \r\n    \"email\": \"{{AdminEmail}}\", \r\n    \"password\": \"{{AdminPassword}}\",\r\n    \"role\": \"admin\",\r\n     \"rolee\": \"admin\"\r\n}",
+									"raw": "{ \r\n    \"email\": \"{{AdminEmail}}\", \r\n    \"password\": \"{{AdminPassword}}\",\r\n    \"role\": \"admin\",\r\n    \"rolee\": \"admin\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
