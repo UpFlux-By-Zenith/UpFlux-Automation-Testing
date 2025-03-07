@@ -4840,6 +4840,54 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "XMLExternalEntityTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body has error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.json().error).to.equal(\"Invalid credentials\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"<?xml version=\\\"1.0\\\"?><!DOCTYPE foo [<!ENTITY xxe SYSTEM \\\"file:///etc/passwd\\\">]><login><email>&xxe;</email></login>\",\r\n  \"password\": \"{{AdminPassword}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/Admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"Admin",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "Tests for vulnerabilities where unsanitized HTML input can be injected and executed in the application."
