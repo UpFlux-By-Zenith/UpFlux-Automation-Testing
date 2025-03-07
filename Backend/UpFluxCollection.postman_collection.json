@@ -4888,6 +4888,59 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "JSONCallbackInjectionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body has error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.json().error).to.equal(\"Invalid credentials\");\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{AdminEmail}}\",\r\n    \"password\": \"{{AdminPassword}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login?callback=evilFunction",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									],
+									"query": [
+										{
+											"key": "callback",
+											"value": "evilFunction"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "Tests for vulnerabilities where unsanitized HTML input can be injected and executed in the application."
