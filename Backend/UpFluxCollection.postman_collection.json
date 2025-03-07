@@ -215,6 +215,21 @@
 								},
 								{
 									"name": "EngineerList",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {\r",
+													"    pm.response.to.have.status(200);\r",
+													"});\r",
+													""
+												],
+												"type": "text/javascript",
+												"packages": {}
+											}
+										}
+									],
 									"request": {
 										"auth": {
 											"type": "bearer",
@@ -3086,6 +3101,70 @@
 									]
 								},
 								"description": "This endpoint allows administrators to log in by sending a POST request to {{url}}/api/Auth/admin/login. The request should include the administrator's email and password in the request body.\n\n### Request Body\n\n- email (string): The email of the administrator.\n    \n- password (string): The password of the administrator.\n    \n\n### Response\n\nUpon successful authentication, the server returns a status code of 200 along with a JSON response containing the authentication token and user details. In case of authentication failure, the server returns a status code of 401 with a JSON response containing an error message.\n\nExample Response:\n\n``` json\n{\n  \"error\": \"Authentication failed\"\n}\n\n ```"
+							},
+							"response": []
+						},
+						{
+							"name": "DoubleEncodingBasedInputBypassTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 401\", function () {\r",
+											"    pm.response.to.have.status(401);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Response body contains error message for invalid credentials\", function () {\r",
+											"    pm.expect(pm.response.text()).to.include(\"Invalid credentials\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Content-Type header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Content-Type\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Transfer-Encoding header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Transfer-Encoding\");\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"email\": \"%61%64%6d%69%6e%40%75%70%66%6c%75%78%2e%63%6f%6d\",\r\n  \"password\": \"%70%61%73%73%77%6f%72%64\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/Admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"Admin",
+										"login"
+									]
+								}
 							},
 							"response": []
 						}
