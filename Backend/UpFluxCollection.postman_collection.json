@@ -4787,6 +4787,59 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "HttpParamterPollutionTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"HTTP Parameter Pollution - API Should Reject Duplicate Parameters\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(400);\r",
+											"});"
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{AdminEmail}}\",\r\n    \"password\": \"{{AdminPassword}}\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/admin/login?email=admin@upflux.com&email=attacker@evil.com",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"admin",
+										"login"
+									],
+									"query": [
+										{
+											"key": "email",
+											"value": "admin@upflux.com"
+										},
+										{
+											"key": "email",
+											"value": "attacker@evil.com"
+										}
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "Tests for vulnerabilities where unsanitized HTML input can be injected and executed in the application."
