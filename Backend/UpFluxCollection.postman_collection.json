@@ -4731,6 +4731,62 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "AuthenticationBypassHttpMethodManipulationTest",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"HTTP Method Manipulation - Only POST Should Be Allowed\", function () {\r",
+											"    pm.expect(pm.response.code).to.eql(405);\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Date header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Date\");\r",
+											"});\r",
+											"\r",
+											"pm.test(\"Server header is present\", function () {\r",
+											"    pm.response.to.have.header(\"Server\");\r",
+											"});\r",
+											"\r",
+											""
+										],
+										"type": "text/javascript",
+										"packages": {}
+									}
+								}
+							],
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"{{AdminEmail}}\",\r\n    \"password\": \"{{AdminPassword}}\"\r\n}\r\n",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}/api/Auth/Admin/login",
+									"host": [
+										"{{url}}"
+									],
+									"path": [
+										"api",
+										"Auth",
+										"Admin",
+										"login"
+									]
+								}
+							},
+							"response": []
 						}
 					],
 					"description": "Tests for vulnerabilities where unsanitized HTML input can be injected and executed in the application."
